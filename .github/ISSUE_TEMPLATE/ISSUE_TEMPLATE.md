@@ -1,6 +1,6 @@
 ---
 name: 이슈 템플릿
-about: 이슈 템플릿입니다.
+about: 이슈 템플릿입니다
 title: "[BE/00] 제목"
 labels: ''
 assignees: ''
