@@ -34,5 +34,26 @@ public class CoinService {
         return new CoinResponse.FindByIdDTO(coin.getPiece());
     }
 
+    public CoinResponse.FindByIdDTO chargeCoin(User user, Long piece) {
+
+        Optional<Coin> coinOptional = coinJPARepository.findByUserId(user.getId());
+        Coin coin;
+
+        if (coinOptional.isPresent()) {
+            coin = coinOptional.get();
+            coin.setPiece(coin.getPiece() + piece);
+        } else {
+            coin = Coin.builder()
+                    .user(user)
+                    .piece(piece)
+                    .build();
+        }
+
+        coinJPARepository.save(coin);
+
+        return new CoinResponse.FindByIdDTO(coin.getPiece());
+
+    }
+
 
 }
