@@ -55,14 +55,14 @@ public class CoinService {
 
     }
 
-    public void useCoin(User user, Long piece) {
+    public void useCoin(User user, Long rentalPrice) {
 
-        Optional<Coin> coinOptional = coinJPARepository.findByUser(user);
+        Optional<Coin> coinOptional = coinJPARepository.findByUserId(user.getId());
 
         if (coinOptional.isPresent()) {
             Coin coin = coinOptional.get();
-            if (coin.getPiece() >= piece) {
-                coin.setPiece(coin.getPiece() - piece);
+            if (coin.getPiece() >= rentalPrice) {
+                coin.setPiece(coin.getPiece() - rentalPrice);
                 coinJPARepository.save(coin);
                 // 결제 로직 추가
             } else {
