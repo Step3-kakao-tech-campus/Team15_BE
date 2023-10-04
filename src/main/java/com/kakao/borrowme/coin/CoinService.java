@@ -55,5 +55,24 @@ public class CoinService {
 
     }
 
+    public void useCoin(User user, Long piece) {
 
+        Optional<Coin> coinOptional = coinJPARepository.findByUser(user);
+
+        if (coinOptional.isPresent()) {
+            Coin coin = coinOptional.get();
+            if (coin.getPiece() >= piece) {
+                coin.setPiece(coin.getPiece() - piece);
+                coinJPARepository.save(coin);
+                // 결제 로직 추가
+            } else {
+                // 코인 잔액이 부족한 경우 예외 처리
+                throw new IllegalArgumentException("코인 잔액이 부족합니다.");
+            }
+        } else {
+            // 코인 엔티티가 없는 경우 예외 처리
+            throw new IllegalArgumentException("코인 정보가 없습니다.");
+        }
+
+    }
 }
