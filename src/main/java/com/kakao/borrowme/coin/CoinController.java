@@ -8,6 +8,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @RestController
 @RequestMapping("/payment")
 public class CoinController {
@@ -37,10 +40,13 @@ public class CoinController {
         return ResponseEntity.ok(apiResult);
     }
 
-    // 3. 결제하기
-    @PostMapping("/create")
-    public ResponseEntity<String> createPayment(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest coinRequest) {
-        CoinResponse.FindByIdDTO responseDTO = coinService.useCoin(userDetails.getUser(), coinRequest.getPiece());
+    // 3. 결제하기 - 대여가격 불러오는 방법에 따라 수정 예정
+    @PostMapping("/{productId}/create")
+    public ResponseEntity<String> useCoin(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long productId, @RequestBody CoinRequest coinRequest) {
+        LocalDateTime startAt = LocalDateTime.parse(coinRequest.getStartAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endAt = LocalDateTime.parse(coinRequest.getEndAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        CoinResponse.FindByIdDTO responseDTO = coinService.useCoin(userDetails.getUser(), productId, startAt, endAt);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
