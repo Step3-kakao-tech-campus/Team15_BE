@@ -17,13 +17,4 @@ public class CoinResponse {
 
     }
 
-    public static class CoinDTO {
-
-        private Long totalPrice;
-
-        public CoinDTO(Long totalPrice) {
-            this.totalPrice = totalPrice;
-        }
-    }
-
 }
