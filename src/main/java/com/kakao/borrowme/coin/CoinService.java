@@ -34,10 +34,11 @@ public class CoinService {
         return new CoinResponse.FindByIdDTO(coin.getPiece());
     }
 
-    public CoinResponse.FindByIdDTO chargeCoin(User user, Long piece) {
+    public CoinResponse.FindByIdDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
 
         Optional<Coin> coinOptional = coinJPARepository.findByUserId(user.getId());
         Coin coin;
+        Long piece = chargeCoinDTO.getPiece();
 
         if (coinOptional.isPresent()) {
             coin = coinOptional.get();
@@ -55,24 +56,26 @@ public class CoinService {
 
     }
 
-    public void useCoin(User user, Long rentalPrice) {
+    public void useCoin(User user, CoinRequest.UseCoinDTO useCoinDTO) {
 
-        Optional<Coin> coinOptional = coinJPARepository.findByUserId(user.getId());
+        Long totalPrice = useCoinDTO.getTotalPrice();
+
+        // * 예외처리 수정 필요 *
+        Optional<Coin> coinOptional = coinJPARepository.findByUserId(user.getId()).orElseThrow(() -> new Exception404("사용자의 코인 정보를 찾을 수 없습니다."));
 
         if (coinOptional.isPresent()) {
             Coin coin = coinOptional.get();
-            if (coin.getPiece() >= rentalPrice) {
-                coin.setPiece(coin.getPiece() - rentalPrice);
+            if (coin.getPiece() >= totalPrice) {
+                coin.setPiece(coin.getPiece() - totalPrice);
                 coinJPARepository.save(coin);
                 // 결제 로직 추가
             } else {
                 // 코인 잔액이 부족한 경우 예외 처리
-                throw new IllegalArgumentException("코인 잔액이 부족합니다.");
+                throw new Exception400("코인이 부족합니다.");
             }
         } else {
             // 코인 엔티티가 없는 경우 예외 처리
-            throw new IllegalArgumentException("코인 정보가 없습니다.");
+            throw new Exception400("코인 정보가 없습니다.");
         }
-
     }
 }
