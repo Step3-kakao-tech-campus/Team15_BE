@@ -40,7 +40,6 @@ public class User {
     @Column(length = 45)
     private String nickname;
 
-    @NotNull
     @Column(length = 45)
     private String role;
 
