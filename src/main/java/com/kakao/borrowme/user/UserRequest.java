@@ -25,4 +25,10 @@ public class UserRequest {
                     .build();
         }
     }
+
+    @Getter @Setter
+    public static class LoginDTO {
+        private String email;
+        private String password;
+    }
 }
