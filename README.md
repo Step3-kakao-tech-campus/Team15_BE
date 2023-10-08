@@ -28,7 +28,7 @@
 ## 멤버 소개
 |<img src="https://github.com/geunho00.png"  width="150" height="150"/>|<img src="https://github.com/zxc88kr.png"  width="150" height="150"/>|<img src="https://github.com/C0Zl.png"  width="150" height="150"/>|
 |:---:|:---:|:---:|
-|김근호|박찬|이지혜|
+|[김근호](https://github.com/geunho00)|[박찬](https://github.com/zxc88kr)|[이지혜](https://github.com/C0Zl)|
 </br>
 
 ## 서비스 소개
@@ -56,4 +56,4 @@ cd src
 ## 자료 모음
 - [ERD](https://www.notion.so/loopy-lim/ERD-21bc893f38a0482f99877ae825707a89?pvs=4#d1753d7c567546adabec87c282137b63)
 - [API](https://www.notion.so/loopy-lim/BE_API-c02e5946141b45f889a22cb909d0d617)
-- [FIGMA](https://www.notion.so/15-ecf19ab9c42c46138aaf9d1c82849c7b?pvs=4#3f2795b3b6be4a1d8f5d85b9bc8657e5)
+- [FIGMA](https://www.figma.com/file/CoUEoS5JYZz78AYT5c4Oq1/%EC%99%80%EC%9D%B4%EC%96%B4-%ED%94%84%EB%A0%88%EC%9E%84?type=design&node-id=0%3A1&mode=design&t=vQyMvCGKAIbmYD07-1)
