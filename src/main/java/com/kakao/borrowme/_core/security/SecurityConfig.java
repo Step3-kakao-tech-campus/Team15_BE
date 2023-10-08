@@ -19,11 +19,11 @@ public class SecurityConfig {
         // 1. CSRF 해제
         http.csrf().disable();
 
-        http.formLogin()
-                .usernameParameter("email")
-                .loginProcessingUrl("/user/login");
+        // 2. UsernamePasswordAuthenticationFilter 해제
+        http.formLogin().disable();
 
-        http.authorizeRequests(authorize -> authorize.antMatchers("/").authenticated().anyRequest().permitAll());
+        // 3. HttpBasicAuthenticationFilter 해제
+        http.httpBasic().disable();
 
         return http.build();
     }
