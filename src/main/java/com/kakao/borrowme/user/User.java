@@ -24,7 +24,7 @@ public class User {
     @Column(name = "user_pk")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "university_pk")
     private University university;
 

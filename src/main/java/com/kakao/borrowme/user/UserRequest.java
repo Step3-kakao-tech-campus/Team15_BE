@@ -16,7 +16,7 @@ public class UserRequest {
             return User.builder()
                     .university(
                             University.builder()
-                                    .name(universityName)
+                                    .name(universityName) // Unique가 아니므로, 동일한 대학 무제한 삽입 가능
                                     .build())
                     .email(email)
                     .password(password)
