@@ -1,4 +1,4 @@
-package com.kakao.borrowme._core;
+package com.kakao.borrowme._core.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,9 @@ public class SecurityConfig {
         // 1. CSRF 해제
         http.csrf().disable();
 
-        http.formLogin().loginProcessingUrl("login");
+        http.formLogin()
+                .usernameParameter("email")
+                .loginProcessingUrl("/user/login");
 
         http.authorizeRequests(authorize -> authorize.antMatchers("/").authenticated().anyRequest().permitAll());
 
