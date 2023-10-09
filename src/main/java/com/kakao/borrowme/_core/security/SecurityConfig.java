@@ -16,15 +16,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // 1. CSRF 해제
-        http.csrf().disable();
-
-        // 2. UsernamePasswordAuthenticationFilter 해제
-        http.formLogin().disable();
-
-        // 3. HttpBasicAuthenticationFilter 해제
-        http.httpBasic().disable();
-
         return http.build();
     }
 }
