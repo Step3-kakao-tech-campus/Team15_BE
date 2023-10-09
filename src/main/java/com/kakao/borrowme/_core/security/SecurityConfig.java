@@ -3,6 +3,7 @@ package com.kakao.borrowme._core.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,6 +22,9 @@ public class SecurityConfig {
 
         // 2. Cross-Origin 사용 거부
         http.headers().frameOptions().sameOrigin();
+
+        // 3. jSessionID 사용 거부
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
     }
