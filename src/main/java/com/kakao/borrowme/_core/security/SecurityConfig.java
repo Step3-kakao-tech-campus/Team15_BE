@@ -26,6 +26,9 @@ public class SecurityConfig {
         // 3. jSessionID 사용 거부
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        // 4. UsernamePasswordAuthenticationFilter 해제
+        http.formLogin().disable();
+
         return http.build();
     }
 }
