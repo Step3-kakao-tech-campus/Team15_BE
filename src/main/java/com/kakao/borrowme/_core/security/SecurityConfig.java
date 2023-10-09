@@ -29,6 +29,9 @@ public class SecurityConfig {
         // 4. UsernamePasswordAuthenticationFilter 해제
         http.formLogin().disable();
 
+        // 5. HttpBasicAuthenticationFilter 해제
+        http.httpBasic().disable();
+
         return http.build();
     }
 }
