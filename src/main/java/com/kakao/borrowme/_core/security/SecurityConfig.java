@@ -19,6 +19,9 @@ public class SecurityConfig {
         // 1. CSRF 해제
         http.csrf().disable();
 
+        // 2. Cross-Origin 사용 거부
+        http.headers().frameOptions().sameOrigin();
+
         return http.build();
     }
 }
