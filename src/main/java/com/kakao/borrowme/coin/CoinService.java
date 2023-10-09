@@ -1,5 +1,6 @@
 package com.kakao.borrowme.coin;
 
+import com.kakao.borrowme._core.errors.Exception400;
 import com.kakao.borrowme.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class CoinService {
         Long totalPrice = useCoinDTO.getTotalPrice();
 
         // * 예외처리 수정 필요 *
-        Optional<Coin> coinOptional = coinJPARepository.findByUserId(user.getId()).orElseThrow(() -> new Exception404("사용자의 코인 정보를 찾을 수 없습니다."));
+        Optional<Coin> coinOptional = coinJPARepository.findByUserId(user.getId());
 
         if (coinOptional.isPresent()) {
             Coin coin = coinOptional.get();
