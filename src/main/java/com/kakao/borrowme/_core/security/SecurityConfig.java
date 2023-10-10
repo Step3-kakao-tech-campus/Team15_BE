@@ -1,5 +1,6 @@
 package com.kakao.borrowme._core.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+@Slf4j
 @Configuration
 public class SecurityConfig {
     @Bean
@@ -42,6 +44,11 @@ public class SecurityConfig {
 
         // 7. CORS 재설정
         http.cors().configurationSource(configurationSource());
+
+        // 8. 인증 실패 처리
+        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
+            log.error("인증되지 않았습니다");
+        });
 
         return http.build();
     }
