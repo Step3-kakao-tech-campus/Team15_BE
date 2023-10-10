@@ -50,6 +50,11 @@ public class SecurityConfig {
             log.error("인증되지 않았습니다");
         });
 
+        // 9. 권한 실패 처리
+        http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
+            log.error("권한이 없습니다");
+        });
+
         return http.build();
     }
 
