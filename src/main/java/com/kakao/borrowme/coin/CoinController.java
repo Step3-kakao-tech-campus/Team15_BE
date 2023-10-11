@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/payment")
 public class CoinController {
@@ -19,8 +18,9 @@ public class CoinController {
         this.coinService = coinService;
     }
 
+
     // 1. 충전 금액 조회하기
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<?> getUserCoin(@AuthenticationPrincipal CustomUserDetails userDetails) {
         CoinResponse.FindByIdDTO responseDTO = coinService.getUserCoin(userDetails.getUser());
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
@@ -35,10 +35,10 @@ public class CoinController {
         return ResponseEntity.ok(apiResult);
     }
 
-    // 3. 결제하기 - 대여가격 불러오는 방법에 따라 수정 예정
-    @PostMapping("/{productId}/create")
+    // 3. 결제하기
+    @PostMapping("/create") // endpoint 수정
     public ResponseEntity<?> useCoin(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.UseCoinDTO useCoinDTO) {
-        coinService.useCoin(userDetails.getUser(),useCoinDTO);
+        coinService.useCoin(userDetails.getUser(), useCoinDTO);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success((Object)null);
         return ResponseEntity.ok(apiResult);
     }
