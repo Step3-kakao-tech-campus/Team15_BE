@@ -55,6 +55,12 @@ public class SecurityConfig {
             log.error("권한이 없습니다");
         });
 
+        // 10. 인증, 권한 필터 설정
+        http.authorizeRequests(
+                authorize -> authorize.antMatchers("/user/join/**", "/user/login/**", "/h2-console/**").permitAll()
+                        .anyRequest().authenticated()
+        );
+
         return http.build();
     }
 
