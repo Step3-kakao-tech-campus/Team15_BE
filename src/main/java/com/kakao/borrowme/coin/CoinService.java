@@ -80,7 +80,8 @@ public class CoinService {
 
             if (coin.getPiece() < totalPrice) {
 
-                // 코인 잔액이 부족한 경우에 대한 예외 처리
+                // 코인 잔액이 부족한 경우에 대한 에러처리
+                // throw new create_insufficient_coinCo
                 log.error("코인이 부족합니다.");
 
             } else {
