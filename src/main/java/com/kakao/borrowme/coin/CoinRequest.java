@@ -1,20 +1,24 @@
 package com.kakao.borrowme.coin;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 public class CoinRequest {
 
-    public CoinRequest() {}
-
+    @Getter @Setter @ToString
     public static class ChargeCoinDTO {
+
         private Long piece;
-        public Long getPiece() {
-            return piece;
-        }
 
     }
 
+    @Getter @Setter @ToString
     public static class UseCoinDTO {
-        private Long totalPrice;
-        public Long getTotalPrice() {return totalPrice;}
-    }
-}
 
+        private String startAt;
+        private String endAt;
+
+    }
+
+}
