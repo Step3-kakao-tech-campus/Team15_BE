@@ -36,7 +36,7 @@ public class CoinController {
 
     // 3. 결제하기
     @PostMapping("/{productId}/create") // endpoint 수정
-    public ResponseEntity<?> useCoin(@PathVariable String productId, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.UseCoinDTO useCoinDTO) {
+    public ResponseEntity<?> useCoin(@PathVariable Long productId, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.UseCoinDTO useCoinDTO) {
         LocalDateTime startAt = LocalDateTime.parse(useCoinDTO.getStartAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endAt = LocalDateTime.parse(useCoinDTO.getEndAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 

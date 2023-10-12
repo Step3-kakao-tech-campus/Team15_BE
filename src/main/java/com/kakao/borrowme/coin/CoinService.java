@@ -56,7 +56,7 @@ public class CoinService {
     }
 
     @Transactional
-    public void useCoin(User user, String productId, LocalDateTime startAt, LocalDateTime endAt) {
+    public void useCoin(User user, Long productId, LocalDateTime startAt, LocalDateTime endAt) {
 
         Optional<Product> productOP = productJPARepository.findById(productId);
 
