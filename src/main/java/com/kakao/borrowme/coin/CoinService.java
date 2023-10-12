@@ -21,7 +21,7 @@ public class CoinService {
     private final ProductJPARepository productJPARepository;
 
     @Transactional
-    public CoinResponse.getUserCoinDTO getUserCoin(User user) {
+    public CoinResponse.GetUserCoinDTO getUserCoin(User user) {
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
 
@@ -31,12 +31,12 @@ public class CoinService {
         }
 
         Coin coin = coinOP.get();
-        return new CoinResponse.getUserCoinDTO(coin);
+        return new CoinResponse.GetUserCoinDTO(coin);
 
     }
 
     @Transactional
-    public CoinResponse.getUserCoinDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
+    public CoinResponse.GetUserCoinDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
         Coin coin;
@@ -51,7 +51,7 @@ public class CoinService {
         coin.setPiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
-        return new CoinResponse.getUserCoinDTO(coin);
+        return new CoinResponse.GetUserCoinDTO(coin);
 
     }
 
