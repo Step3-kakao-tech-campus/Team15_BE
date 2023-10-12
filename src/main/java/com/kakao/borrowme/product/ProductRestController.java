@@ -1,6 +1,5 @@
 package com.kakao.borrowme.product;
 
-import com.kakao.borrowme._core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
