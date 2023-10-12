@@ -6,6 +6,8 @@ import com.kakao.borrowme.user.User;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -18,7 +20,8 @@ public class CoinService {
     private final CoinJPARepository coinJPARepository;
     private final ProductJPARepository productJPARepository;
 
-    public CoinResponse.FindByIdDTO getUserCoin(User user) {
+    @Transactional
+    public CoinResponse.CoinInfoDTO getUserCoin(User user) {
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
 
@@ -28,11 +31,12 @@ public class CoinService {
         }
 
         Coin coin = coinOP.get();
-        return new CoinResponse.FindByIdDTO(coin);
+        return new CoinResponse.CoinInfoDTO(coin);
 
     }
 
-    public CoinResponse.FindByIdDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
+    @Transactional
+    public CoinResponse.CoinInfoDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
         Coin coin;
@@ -47,13 +51,14 @@ public class CoinService {
         coin.setPiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
-        return new CoinResponse.FindByIdDTO(coin);
+        return new CoinResponse.CoinInfoDTO(coin);
 
     }
 
+    @Transactional
     public void useCoin(User user, String productId, LocalDateTime startAt, LocalDateTime endAt) {
 
-        Optional<Product> productOP = ProductJPARepository.findById(productId);
+        Optional<Product> productOP = productJPARepository.findById(productId);
 
         if (!productOP.isPresent()) {
 

@@ -21,7 +21,7 @@ public class CoinController {
     // 1. 충전 금액 조회하기
     @GetMapping("")
     public ResponseEntity<?> getUserCoin(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        CoinResponse.FindByIdDTO responseDTO = coinService.getUserCoin(userDetails.getUser());
+        CoinResponse.CoinInfoDTO responseDTO = coinService.getUserCoin(userDetails.getUser());
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
@@ -29,7 +29,7 @@ public class CoinController {
     // 2. 충전하기
     @PostMapping("/charge")
     public ResponseEntity<?> chargeCoin(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.ChargeCoinDTO chargeCoinDTO) {
-        CoinResponse.FindByIdDTO responseDTO = coinService.chargeCoin(userDetails.getUser(), chargeCoinDTO);
+        CoinResponse.CoinInfoDTO responseDTO = coinService.chargeCoin(userDetails.getUser(), chargeCoinDTO);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
