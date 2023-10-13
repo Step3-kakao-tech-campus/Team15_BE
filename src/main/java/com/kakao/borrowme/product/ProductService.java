@@ -1,7 +1,6 @@
 package com.kakao.borrowme.product;
 
-import com.kakao.borrowme._core.errors.Exception404;
-import com.kakao.borrowme.company.Company;
+eimport com.kakao.borrowme.company.Company;
 import com.kakao.borrowme.company.CompanyJPARepository;
 import com.kakao.borrowme.product.image.ProductImage;
 import com.kakao.borrowme.product.image.ProductImageJPARepository;
