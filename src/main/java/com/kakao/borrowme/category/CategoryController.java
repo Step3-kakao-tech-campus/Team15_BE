@@ -4,6 +4,7 @@ import com.kakao.borrowme._core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,10 +19,15 @@ public class CategoryController {
 
     @GetMapping("")
     public ResponseEntity<?> getCategory() {
-        // 카테고리 정보를 가져옴
-        List<CategoryResponse.FindAllDTO> responseDTOs = categoryService.findAll();
+        List<CategoryResponse.CategoryDTO> responseDTOs = categoryService.getCategory();
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
         return ResponseEntity.ok(apiResult);
     }
 
+    @GetMapping("/{categoryId}")
+    public ResponseEntity<?> getCategoryProduct(@PathVariable Long categoryId) {
+        List<CategoryResponse.ProductDTO> responseDTOs = categoryService.getCategoryProduct(categoryId);
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
+        return ResponseEntity.ok(apiResult);
+    }
 }
