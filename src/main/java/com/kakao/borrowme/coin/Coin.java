@@ -26,15 +26,14 @@ public class Coin {
     @ColumnDefault("0L")
     private Long piece = 0L;
 
+    public void updatePiece(Long piece) {
+        this.piece = piece;
+    }
+
     @Builder
     public Coin(Long id, User user, Long piece) {
         this.id = id;
         this.user = user;
-        this.piece = piece;
-    }
-
-    // 잔액 업데이트
-    public void update(Long piece){
         this.piece = piece;
     }
 }
