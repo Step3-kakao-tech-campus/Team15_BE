@@ -7,7 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "coin_tb")
@@ -33,4 +33,8 @@ public class Coin {
         this.piece = piece;
     }
 
+    // 잔액 업데이트
+    public void update(Long piece){
+        this.piece = piece;
+    }
 }

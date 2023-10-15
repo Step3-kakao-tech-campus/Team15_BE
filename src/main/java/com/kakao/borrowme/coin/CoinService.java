@@ -50,7 +50,7 @@ public class CoinService {
         }
 
         coin = coinOP.get();
-        coin.setPiece(coin.getPiece() + piece);
+        coin.update(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
         return new CoinResponse.CoinInfoDTO(coin);
@@ -90,7 +90,7 @@ public class CoinService {
 
         }
 
-        coin.setPiece(coin.getPiece() - totalPrice);
+        coin.update(coin.getPiece() - totalPrice);
         coinJPARepository.save(coin);
 
     }
