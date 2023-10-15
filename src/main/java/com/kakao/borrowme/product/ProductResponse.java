@@ -21,7 +21,6 @@ public class ProductResponse {
         private String productName;
         private String productImagePath;
 
-
         public FindAllDTO(Product product,ProductImage productImage) {
             this.id = product.getId();
             this.category = product.getCategory();
