@@ -11,8 +11,8 @@ public class ApiUtils {
         return new ApiResult<>(true, response, null);
     }
 
-    public static ApiResult<?> error(String message, HttpStatus status) {
-        return new ApiResult<>(false, null, new ApiError(message, status.value()));
+    public static ApiResult<?> error(String message, HttpStatus status, String reason) {
+        return new ApiResult<>(false, null, new ApiError(message, status.value(), reason));
     }
 
     @Getter @Setter @AllArgsConstructor
@@ -26,5 +26,6 @@ public class ApiUtils {
     public static class ApiError {
         private final String message;
         private final int status;
+        private final String reason;
     }
 }
