@@ -3,7 +3,6 @@ package com.kakao.borrowme.coin;
 import com.kakao.borrowme._core.security.CustomUserDetails;
 import com.kakao.borrowme._core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
