@@ -6,5 +6,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProductImageJPARepository extends JpaRepository<ProductImage, Long> {
     @Query("SELECT pi FROM ProductImage pi WHERE pi.product.id = :productId")
-    ProductImage findByProductId(@Param("productId")Long productId);
+    ProductImage findByProductId(@Param("productId") Long productId);
 }
