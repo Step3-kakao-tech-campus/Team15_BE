@@ -13,11 +13,11 @@ public class CoinLogResponse {
 
         private List<CoinLogDTO> coinLogs;
 
-
         public GetUserCoinLogDTO(List<CoinLog> coinLogList) {
             this.coinLogs = coinLogList.stream().map(CoinLogDTO::new).collect(Collectors.toList());
         }
 
+        @Getter @Setter
         public class CoinLogDTO{
             private Long id;
             private Long piece;
