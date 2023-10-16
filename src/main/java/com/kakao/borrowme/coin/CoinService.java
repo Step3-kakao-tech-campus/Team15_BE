@@ -1,5 +1,6 @@
 package com.kakao.borrowme.coin;
 
+import com.kakao.borrowme.coin.log.CoinLogService;
 import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.product.ProductJPARepository;
 import com.kakao.borrowme.user.User;
@@ -19,6 +20,7 @@ public class CoinService {
 
     private final CoinJPARepository coinJPARepository;
     private final ProductJPARepository productJPARepository;
+    private final CoinLogService coinLogService;
 
     @Transactional
     public CoinResponse.GetUserCoinDTO getUserCoin(User user) {
@@ -53,6 +55,8 @@ public class CoinService {
         coin.updatePiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
+        coinLogService.chargeCoinLog(coin, piece, "충전");
+
         return new CoinResponse.GetUserCoinDTO(coin);
 
     }
@@ -90,8 +94,9 @@ public class CoinService {
 
         }
 
-                coin.updatePiece(coin.getPiece() - totalPrice);
-                coinJPARepository.save(coin);
+        coin.updatePiece(coin.getPiece() - totalPrice);
+        coinJPARepository.save(coin);
+        coinLogService.useCoinLog(coin, -totalPrice, "결제");
 
     }
 
