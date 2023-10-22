@@ -1,5 +1,6 @@
 package com.kakao.borrowme.coin;
 
+import com.kakao.borrowme.coin.log.CoinLogService;
 import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.product.ProductJPARepository;
 import com.kakao.borrowme.user.User;
@@ -19,9 +20,10 @@ public class CoinService {
 
     private final CoinJPARepository coinJPARepository;
     private final ProductJPARepository productJPARepository;
+    private final CoinLogService coinLogService;
 
     @Transactional
-    public CoinResponse.CoinInfoDTO getUserCoin(User user) {
+    public CoinResponse.GetUserCoinDTO getUserCoin(User user) {
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
 
@@ -32,12 +34,12 @@ public class CoinService {
         }
 
         Coin coin = coinOP.get();
-        return new CoinResponse.CoinInfoDTO(coin);
+        return new CoinResponse.GetUserCoinDTO(coin);
 
     }
 
     @Transactional
-    public CoinResponse.CoinInfoDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
+    public CoinResponse.GetUserCoinDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
         Coin coin;
@@ -50,10 +52,12 @@ public class CoinService {
         }
 
         coin = coinOP.get();
-        coin.setPiece(coin.getPiece() + piece);
+        coin.updatePiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
-        return new CoinResponse.CoinInfoDTO(coin);
+        coinLogService.chargeCoinLog(coin, piece, "충전");
+
+        return new CoinResponse.GetUserCoinDTO(coin);
 
     }
 
@@ -90,8 +94,9 @@ public class CoinService {
 
         }
 
-        coin.setPiece(coin.getPiece() - totalPrice);
+        coin.updatePiece(coin.getPiece() - totalPrice);
         coinJPARepository.save(coin);
+        coinLogService.useCoinLog(coin, -totalPrice, "결제");
 
     }
 

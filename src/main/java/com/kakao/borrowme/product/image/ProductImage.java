@@ -18,7 +18,7 @@ public class ProductImage {
     @Column(name = "product_image_pk")
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_pk")
     private Product product;
 

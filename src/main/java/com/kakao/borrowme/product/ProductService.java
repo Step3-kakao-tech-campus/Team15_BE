@@ -40,4 +40,13 @@ public class ProductService {
                 () -> new Exception404("존재하지 않는 회사입니다. : "+id,"company_not_existed")); // Company 정보 조회
         return new ProductResponse.FindByIdDTO(product, productImage, company);
     }
+
+    public Slice<ProductResponse.FindAllDTO> searchProducts(Long lastProductId, String keyword, Pageable pageable) {
+        Slice<Product> productSlice = productRepository.searchProducts(lastProductId, keyword, pageable);
+        Slice<ProductResponse.FindAllDTO> responseDTOSlice = productSlice.map(product -> {
+            ProductImage productImage = productImageRepository.findByProductId(product.getId());
+            return new ProductResponse.FindAllDTO(product, productImage);
+        });
+        return responseDTOSlice;
+    }
 }
