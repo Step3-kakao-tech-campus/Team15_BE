@@ -9,5 +9,4 @@ public interface CoinJPARepository extends JpaRepository<Coin, Long> {
 
     Optional<Coin> findByUserId(Long userId);
 
-
 }
