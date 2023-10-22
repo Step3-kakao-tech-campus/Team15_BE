@@ -12,6 +12,7 @@ public interface ProductJPARepository extends JpaRepository<Product, Long> {
     // 이전 페이지의 마지막 제품 ID를 기준으로 다음 페이지의 데이터를 조회
     @Query("SELECT p FROM Product p WHERE p.id > :lastProductId ORDER BY p.id ASC")
     Slice<Product> findNextPage(@Param("lastProductId") Long lastProductId, Pageable pageable);
-
-    List<Product> findByCategoryId(Long categoryId);
+  
+    @Query("SELECT p FROM Product p WHERE p.id > :lastProductId AND p.name LIKE %:keyword% ORDER BY p.id ASC")
+    Slice<Product> searchProducts(@Param("lastProductId") Long lastProductId, @Param("keyword") String keyword, Pageable pageable);
 }
