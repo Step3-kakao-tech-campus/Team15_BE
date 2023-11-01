@@ -14,7 +14,7 @@ public interface ProductJPARepository extends JpaRepository<Product, Long> {
     Slice<Product> findNextPage(@Param("lastProductId") Long lastProductId, Pageable pageable);
   
     @Query("SELECT p FROM Product p WHERE p.id > :lastProductId AND p.name LIKE %:keyword% ORDER BY p.id ASC")
-    Slice<Product> searchProducts(@Param("lastProductId") Long lastProductId, @Param("keyword") String keyword, Pageable pageable);
+    Slice<Product> searchProduct(@Param("lastProductId") Long lastProductId, @Param("keyword") String keyword, Pageable pageable);
 
     List<Product> findByCategoryId(Long categoryId);
 }

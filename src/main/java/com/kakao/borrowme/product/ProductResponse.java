@@ -59,4 +59,24 @@ public class ProductResponse {
             this.companyImagePath = company.getCompanyImagePath();
         }
     }
+
+    @Getter
+    @Setter
+    public static class RentDTO {
+        private Long id;
+        private String productName;
+        private Long totalPrice;
+        private String productImagePath;
+        private String companyName;
+        private Location location;
+
+        public RentDTO(Product product, Long totalPrice, ProductImage productImage, Company company) {
+            this.id = product.getId();
+            this.productName = product.getName();
+            this.totalPrice = totalPrice;
+            this.productImagePath = productImage.getProductImagePath();
+            this.companyName = company.getName();
+            this.location = product.getLocation();
+        }
+    }
 }
