@@ -11,19 +11,6 @@ public class UserRequest {
         private String email;
         private String password;
         private String nickname;
-
-        public User toEntity() {
-            return User.builder()
-                    .university(
-                            University.builder()
-                                    .name(universityName) // Unique가 아니므로, 동일한 대학 무제한 삽입 가능
-                                    .build())
-                    .email(email)
-                    .password(password)
-                    .nickname(nickname)
-                    .role("student")
-                    .build();
-        }
     }
 
     @Getter @Setter
