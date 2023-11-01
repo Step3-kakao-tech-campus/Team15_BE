@@ -1,8 +1,8 @@
 package com.kakao.borrowme.user;
 
+import com.kakao.borrowme._core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +14,11 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/user")
 public class UserRestController {
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody @Valid UserRequest.JoinDTO joinDTO) {
-        joinDTO.setPassword(passwordEncoder.encode(joinDTO.getPassword()));
-
-        return ResponseEntity.ok().body("ok");
+    public ResponseEntity<?> join(@RequestBody @Valid UserRequest.JoinDTO requestDTO) {
+        userService.join(requestDTO);
+        return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 }
