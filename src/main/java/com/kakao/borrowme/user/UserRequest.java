@@ -21,6 +21,7 @@ public class UserRequest {
 
     @Getter @Setter
     public static class LoginDTO {
+        @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")
         private String email;
         @Size(min = 8, max = 20)
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)\\S*$")
