@@ -13,7 +13,7 @@ public class UserService {
 
     public void sameCheckEmail(String email) {
         userJPARepository.findByEmail(email).ifPresent(
-                user -> new Exception409("동일한 이메일이 존재합니다.:" + user.getEmail(), "join_duplicated_email")
+                user -> { throw new Exception409("동일한 이메일이 존재합니다.:" + user.getEmail(), "join_duplicated_email"); }
         );
     }
 }
