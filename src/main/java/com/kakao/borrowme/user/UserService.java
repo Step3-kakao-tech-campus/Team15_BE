@@ -1,6 +1,8 @@
 package com.kakao.borrowme.user;
 
+import com.kakao.borrowme._core.errors.exception.Exception401;
 import com.kakao.borrowme._core.errors.exception.Exception409;
+import com.kakao.borrowme._core.security.JWTProvider;
 import com.kakao.borrowme.university.University;
 import com.kakao.borrowme.university.UniversityJPARepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,16 @@ public class UserService {
                 .nickname(requestDTO.getNickname())
                 .build();
         userJPARepository.save(user);
+    }
+
+    public String login(UserRequest.LoginDTO requestDTO) {
+        User user = userJPARepository.findByEmail(requestDTO.getEmail()).orElseThrow(
+                () -> new Exception401("인증되지 않은 사용자입니다.", "login_unauthenticated_user")
+        );
+        if (!passwordEncoder.matches(requestDTO.getPassword(), user.getPassword())) {
+            throw new Exception401("인증되지 않은 사용자입니다.", "login_unauthenticated_user");
+        }
+        return JWTProvider.create(user);
     }
 
     public void sameCheckEmail(String email) {
