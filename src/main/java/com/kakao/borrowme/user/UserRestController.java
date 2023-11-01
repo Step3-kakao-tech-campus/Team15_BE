@@ -21,4 +21,10 @@ public class UserRestController {
         userService.join(requestDTO);
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDTO requestDTO) {
+        // userService.login(requestDTO);
+        return ResponseEntity.ok().body(ApiUtils.success(null));
+    }
 }
