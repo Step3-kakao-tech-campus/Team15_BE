@@ -1,6 +1,6 @@
 package com.kakao.borrowme.user;
 
-import com.kakao.borrowme._core.errors.exception.Exception400;
+import com.kakao.borrowme._core.errors.exception.Exception409;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ public class UserService {
 
     public void sameCheckEmail(String email) {
         userJPARepository.findByEmail(email).orElseThrow(
-                () -> new Exception400("동일한 이메일이 존재합니다.:" + email, "join_duplicated_email")
+                () -> new Exception409("동일한 이메일이 존재합니다.:" + email, "ckeck_existed_email")
         );
     }
 }
