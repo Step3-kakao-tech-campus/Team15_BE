@@ -8,6 +8,7 @@ import javax.validation.constraints.Pattern;
 public class UserRequest {
     @Getter @Setter
     public static class JoinDTO {
+        @Pattern(regexp = "^[가-힣]+대학교$")
         private String universityName;
         @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")
         private String email;
