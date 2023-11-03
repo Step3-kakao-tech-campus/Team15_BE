@@ -6,6 +6,8 @@ import com.kakao.borrowme._core.errors.exception.InsufficientCoinException;
 import com.kakao.borrowme.coin.log.CoinLogService;
 import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.product.ProductJPARepository;
+import com.kakao.borrowme.rental.Rental;
+import com.kakao.borrowme.rental.RentalJPARepository;
 import com.kakao.borrowme.user.User;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class CoinService {
     private final CoinJPARepository coinJPARepository;
     private final ProductJPARepository productJPARepository;
     private final CoinLogService coinLogService;
+    private final RentalJPARepository rentalJPARepository;
 
     @Transactional
     public CoinResponse.GetUserCoinDTO getUserCoin(User user) {
@@ -74,10 +77,9 @@ public class CoinService {
         LocalDateTime startDateTime = parseDateTime(startAt);
         LocalDateTime endDateTime = parseDateTime(endAt);
 
-        Long durationInHours = Duration.between(startDateTime, endDateTime).toHours(); // 대여 기간 (시간)
-        Long durationInDays = durationInHours / 24; // 대여 기간 (일)
+        Long duration = Duration.between(startDateTime, endDateTime).toDays(); // 대여 기간 (시간)
 
-        Long totalPrice = rentalPrice * durationInDays;
+        Long totalPrice = rentalPrice * duration;
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
 
@@ -89,6 +91,11 @@ public class CoinService {
 
         coin.updatePiece(coin.getPiece() - totalPrice);
         coinJPARepository.save(coin);
+
+        Rental rental = Rental.builder().status("대여중") // 대여중 상태로 설정
+                .build();
+        rentalJPARepository.save(rental);
+
         coinLogService.useCoinLog(coin, -totalPrice, "결제");
     }
 
