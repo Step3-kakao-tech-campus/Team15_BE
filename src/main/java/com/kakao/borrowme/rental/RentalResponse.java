@@ -12,7 +12,7 @@ public class RentalResponse {
 
     @Getter
     @Setter
-    public static class FindAllDTO {
+    public static class getRentalDTO {
 
         private Long id;
         private String productName;
@@ -20,14 +20,16 @@ public class RentalResponse {
         private LocalDateTime startAt;
         private LocalDateTime endAt;
         private String productImagePath;
+        private String status;
 
-        public FindAllDTO(Product product, Company company, Rental rental, ProductImage productImage) {
+        public getRentalDTO(Product product, Company company, Rental rental, ProductImage productImage) {
             this.id = product.getId();
             this.productName = product.getName();
             this.companyName = company.getName();
             this.startAt = rental.getStartAt();
             this.endAt = rental.getEndAt();
             this.productImagePath = productImage.getProductImagePath();
+            this.status = rental.getStatus();
         }
     }
 }
