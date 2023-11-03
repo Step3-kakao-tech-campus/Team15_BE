@@ -26,3 +26,11 @@ logging:
   level:
     '[com.example.kakao]': DEBUG
     '[org.hibernate.type]': TRACE
+
+# 테스트용 환경변수 - 추후 숨기기 필요
+security:
+  jwt:
+    access_exp: 14400
+    token_prefix: Bearer
+    header: Authorization
+    secret: BUklzQUpRMEN6cm5iR0ZTZDB3WjhpNG8tdWF0RmNLeTNrTVhnVGpadFhKT05lMjVMOEx2MHJuUEQyaEhReXNhQW1sdkVBTHdfd2NCcMPL-OPBn4IDkAHv-9SnixKYAQQ
