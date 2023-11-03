@@ -2,7 +2,10 @@ package com.kakao.borrowme.rental;
 
 import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.user.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,8 +37,11 @@ public class Rental {
 
     @NotNull
     @Column(length = 45)
-    @Setter
     private String status;
+
+    public void updateStatus(@NotNull String status) {
+        this.status = status;
+    }
 
     @Builder
     public Rental(Long id, Product product, User user, LocalDateTime startAt, LocalDateTime endAt, String status) {

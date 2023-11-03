@@ -49,7 +49,7 @@ public class RentalService {
             throw new Exception400("반납 예정일이 아닙니다." + rental.getEndAt(), "return_early_returned");
         }
 
-        rental.setStatus("반납완료");
+        rental.updateStatus("반납완료");
         rentalRepository.save(rental);
     }
 }
