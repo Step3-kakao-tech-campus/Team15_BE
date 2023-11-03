@@ -20,10 +20,10 @@ public class JWTProvider {
 
     public static String create(User user) {
         String jwt = JWT.create()
-                .withSubject(user.getId().toString())
+                .withSubject("jwt")
                 .withExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusSeconds(ACCESS_EXP)))
+                .withClaim("id", user.getId())
                 .withClaim("role", user.getRole())
-                .withClaim("type", "access")
                 .sign(Algorithm.HMAC512(SECRET));
         return TOKEN_PREFIX + jwt;
     }

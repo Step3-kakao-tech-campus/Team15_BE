@@ -1,7 +1,10 @@
 package com.kakao.borrowme.user;
 
+import com.kakao.borrowme._core.security.JWTProvider;
 import com.kakao.borrowme._core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +27,19 @@ public class UserRestController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDTO requestDTO) {
-        // userService.login(requestDTO);
-        return ResponseEntity.ok().body(ApiUtils.success(null));
+        String jwt = userService.login(requestDTO);
+
+        ResponseCookie responseCookie = ResponseCookie.from("accessToken", jwt.replace(JWTProvider.TOKEN_PREFIX, ""))
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .maxAge(JWTProvider.ACCESS_EXP)
+                .build();
+
+        return ResponseEntity.ok()
+                .header(JWTProvider.HEADER, jwt)
+                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .body(ApiUtils.success(null));
     }
 }
