@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
@@ -31,13 +31,10 @@ public class CoinService {
     @Transactional
     public CoinResponse.GetUserCoinDTO getUserCoin(User user) {
 
-        Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
+        Coin coin = coinJPARepository.findByUserId(user.getId()).orElseGet(
+                () -> coinJPARepository.save(Coin.builder().user(user).build())
+        );
 
-        if (!coinOP.isPresent()) {
-            throw new Exception404("코인 정보가 없습니다."+ user.getId(), "coin_not_existed");
-        }
-
-        Coin coin = coinOP.get();
         return new CoinResponse.GetUserCoinDTO(coin);
 
     }
@@ -45,15 +42,11 @@ public class CoinService {
     @Transactional
     public CoinResponse.GetUserCoinDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
 
-        Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
-        Coin coin;
+        Coin coin = coinJPARepository.findByUserId(user.getId()).orElseGet(
+                () -> coinJPARepository.save(Coin.builder().user(user).build())
+        );
         Long piece = chargeCoinDTO.getPiece();
 
-        if (!coinOP.isPresent()) {
-            throw new Exception404("코인 정보가 없습니다."+ user.getId(), "coin_not_existed");
-        }
-
-        coin = coinOP.get();
         coin.updatePiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
@@ -66,24 +59,21 @@ public class CoinService {
     @Transactional
     public void useCoin(User user, Long productId, String startAt, String endAt) {
 
-        Optional<Product> productOP = productJPARepository.findById(productId);
+        Product product = productJPARepository.findById(productId).orElseThrow(
+                () -> new Exception404("존재하지 않는 제품입니다. : " + productId,"product_not_existed"));
 
-        if (!productOP.isPresent()) {
-            throw new Exception404("존재하지 않는 제품입니다. : " + productId, "product_not_existed");
-        }
+        Long rentalPrice = product.getRentalPrice();
 
-        Long rentalPrice = productOP.get().getRentalPrice();
-
-        ZonedDateTime startDateTime = parseDateTime(startAt);
-        ZonedDateTime endDateTime = parseDateTime(endAt);
+        LocalDateTime startDateTime = parseDateTime(startAt);
+        LocalDateTime endDateTime = parseDateTime(endAt);
 
         Long duration = Duration.between(startDateTime, endDateTime).toDays(); // 대여 기간 (시간)
 
         Long totalPrice = rentalPrice * duration;
 
-        Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
-
-        Coin coin = coinOP.orElseThrow(() -> new Exception404("코인 정보가 존재하지 않습니다. : " + user.getId(), "coin_not_existed"));
+        Coin coin = coinJPARepository.findByUserId(user.getId()).orElseGet(
+                () -> coinJPARepository.save(Coin.builder().user(user).build())
+        );
 
         if (coin.getPiece() < totalPrice) {
             throw new InsufficientCoinException("충전 페이머니가 부족합니다.");
@@ -99,9 +89,9 @@ public class CoinService {
         coinLogService.useCoinLog(coin, -totalPrice, "결제");
     }
 
-    private ZonedDateTime parseDateTime(String dateTimeString) {
+    private LocalDateTime parseDateTime(String dateTimeString) {
         try {
-            return ZonedDateTime.parse(dateTimeString, DateTimeFormatter.ISO_DATE_TIME);
+            return LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_DATE_TIME);
         } catch (DateTimeParseException e) {
             throw new Exception400("잘못된 날짜 형식입니다.","wrong_date_type");
         }
