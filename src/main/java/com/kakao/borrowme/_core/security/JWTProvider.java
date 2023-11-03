@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 
 @Component
 public class JWTProvider {
-    public static final Long ACCESS_EXP = 1000L * 60 * 60;
+    public static final Long ACCESS_EXP = 4L * 60 * 60;
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER = "Authorization";
     public static final String SECRET = "MySecretKey";
 
     public static String create(User user) {
         String jwt = JWT.create()
-                .withSubject("jwt")
+                .withSubject("accessToken")
                 .withExpiresAt(Timestamp.valueOf(LocalDateTime.now().plusSeconds(ACCESS_EXP)))
                 .withClaim("id", user.getId())
                 .withClaim("role", user.getRole())
