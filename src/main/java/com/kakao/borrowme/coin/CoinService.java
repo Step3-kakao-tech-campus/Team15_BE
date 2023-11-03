@@ -1,20 +1,23 @@
 package com.kakao.borrowme.coin;
 
+import com.kakao.borrowme._core.errors.exception.Exception400;
+import com.kakao.borrowme._core.errors.exception.Exception404;
+import com.kakao.borrowme._core.errors.exception.InsufficientCoinException;
 import com.kakao.borrowme.coin.log.CoinLogService;
 import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.product.ProductJPARepository;
 import com.kakao.borrowme.user.User;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Slf4j
 @Service
 public class CoinService {
 
@@ -27,10 +30,8 @@ public class CoinService {
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
 
-        // TODO : 코인 정보가 없는 경우 예외처리
         if (!coinOP.isPresent()) {
-            log.error("코인 정보가 없습니다.");
-            return null;
+            throw new Exception404("코인 정보가 없습니다."+ user.getId(), "coin_not_existed");
         }
 
         Coin coin = coinOP.get();
@@ -45,10 +46,8 @@ public class CoinService {
         Coin coin;
         Long piece = chargeCoinDTO.getPiece();
 
-        // TODO : 코인 정보가 없는 경우 예외처리
         if (!coinOP.isPresent()) {
-            log.error("코인 정보가 없습니다.");
-            return null;
+            throw new Exception404("코인 정보가 없습니다."+ user.getId(), "coin_not_existed");
         }
 
         coin = coinOP.get();
@@ -62,42 +61,43 @@ public class CoinService {
     }
 
     @Transactional
-    public void useCoin(User user, Long productId, LocalDateTime startAt, LocalDateTime endAt) {
+    public void useCoin(User user, Long productId, String startAt, String endAt) {
 
         Optional<Product> productOP = productJPARepository.findById(productId);
 
         if (!productOP.isPresent()) {
-
-            // TODO : 상품이 존재하지 않는 경우에 대한 예외 처리 필요
-            log.error("상품이 존재하지 않습니다.");
-            return;
-
+            throw new Exception404("존재하지 않는 제품입니다. : " + productId, "product_not_existed");
         }
 
         Long rentalPrice = productOP.get().getRentalPrice();
 
-        Long durationInHours = Duration.between(startAt, endAt).toHours(); // 대여 기간 (시간)
+        LocalDateTime startDateTime = parseDateTime(startAt);
+        LocalDateTime endDateTime = parseDateTime(endAt);
+
+        Long durationInHours = Duration.between(startDateTime, endDateTime).toHours(); // 대여 기간 (시간)
         Long durationInDays = durationInHours / 24; // 대여 기간 (일)
 
         Long totalPrice = rentalPrice * durationInDays;
 
         Optional<Coin> coinOP = coinJPARepository.findByUserId(user.getId());
 
-        Coin coin = coinOP.get();
+        Coin coin = coinOP.orElseThrow(() -> new Exception404("코인 정보가 존재하지 않습니다. : " + user.getId(), "coin_not_existed"));
 
         if (coin.getPiece() < totalPrice) {
-
-            // TODO : 코인 잔액이 부족한 경우에 대한 에러처리
-            // throw new create_insufficient_coinCo
-            log.error("코인이 부족합니다.");
-            return;
-
+            throw new InsufficientCoinException("충전 페이머니가 부족합니다.");
         }
 
         coin.updatePiece(coin.getPiece() - totalPrice);
         coinJPARepository.save(coin);
         coinLogService.useCoinLog(coin, -totalPrice, "결제");
+    }
 
+    private LocalDateTime parseDateTime(String dateTimeString) {
+        try {
+            return LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX"));
+        } catch (DateTimeParseException e) {
+            throw new Exception400("잘못된 날짜 형식입니다.","wrong_date_type");
+        }
     }
 
 }
