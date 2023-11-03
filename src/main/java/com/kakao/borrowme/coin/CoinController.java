@@ -7,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payment")
@@ -34,12 +31,9 @@ public class CoinController {
     }
 
     // 3. 결제하기
-    @PostMapping("/{productId}/create") // endpoint 수정
+    @PostMapping("/use-coin/{productId}") // endpoint 수정
     public ResponseEntity<?> useCoin(@PathVariable Long productId, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.UseCoinDTO useCoinDTO) {
-        LocalDateTime startAt = LocalDateTime.parse(useCoinDTO.getStartAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime endAt = LocalDateTime.parse(useCoinDTO.getEndAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-        coinService.useCoin(userDetails.getUser(), productId, startAt, endAt);
+        coinService.useCoin(userDetails.getUser(), productId, useCoinDTO.getStartAt(), useCoinDTO.getEndAt());
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success((Object)null);
         return ResponseEntity.ok(apiResult);
     }
