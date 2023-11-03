@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
@@ -74,8 +74,8 @@ public class CoinService {
 
         Long rentalPrice = productOP.get().getRentalPrice();
 
-        LocalDateTime startDateTime = parseDateTime(startAt);
-        LocalDateTime endDateTime = parseDateTime(endAt);
+        ZonedDateTime startDateTime = parseDateTime(startAt);
+        ZonedDateTime endDateTime = parseDateTime(endAt);
 
         Long duration = Duration.between(startDateTime, endDateTime).toDays(); // 대여 기간 (시간)
 
@@ -99,9 +99,9 @@ public class CoinService {
         coinLogService.useCoinLog(coin, -totalPrice, "결제");
     }
 
-    private LocalDateTime parseDateTime(String dateTimeString) {
+    private ZonedDateTime parseDateTime(String dateTimeString) {
         try {
-            return LocalDateTime.parse(dateTimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX"));
+            return ZonedDateTime.parse(dateTimeString, DateTimeFormatter.ISO_DATE_TIME);
         } catch (DateTimeParseException e) {
             throw new Exception400("잘못된 날짜 형식입니다.","wrong_date_type");
         }
