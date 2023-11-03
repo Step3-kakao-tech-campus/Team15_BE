@@ -20,7 +20,7 @@ public class UserService {
 
     @Transactional
     public void join(UserRequest.JoinDTO requestDTO) {
-        sameCheckEmail(requestDTO.getEmail());
+        checkSameEmail(requestDTO.getEmail());
 
         University university = universityJPARepository.findByName(requestDTO.getUniversityName()).orElseGet(
                 () -> universityJPARepository.save(University.builder().name(requestDTO.getUniversityName()).build())
@@ -46,7 +46,7 @@ public class UserService {
         return JWTProvider.create(user);
     }
 
-    public void sameCheckEmail(String email) {
+    public void checkSameEmail(String email) {
         userJPARepository.findByEmail(email).ifPresent(
                 user -> { throw new Exception409("동일한 이메일이 존재합니다.:" + user.getEmail(), "join_duplicated_email"); }
         );

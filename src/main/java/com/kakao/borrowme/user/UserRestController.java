@@ -25,6 +25,12 @@ public class UserRestController {
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
+    @PostMapping("/join/check")
+    public ResponseEntity<?> joinCheck(@RequestBody @Valid UserRequest.JoinCheckDTO requestDTO) {
+        userService.checkSameEmail(requestDTO.getEmail());
+        return ResponseEntity.ok().body(ApiUtils.success(null));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDTO requestDTO) {
         String jwt = userService.login(requestDTO);

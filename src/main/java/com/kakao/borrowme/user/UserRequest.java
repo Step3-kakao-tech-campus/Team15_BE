@@ -20,6 +20,12 @@ public class UserRequest {
     }
 
     @Getter @Setter
+    public static class JoinCheckDTO {
+        @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")
+        private String email;
+    }
+
+    @Getter @Setter
     public static class LoginDTO {
         @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")
         private String email;
