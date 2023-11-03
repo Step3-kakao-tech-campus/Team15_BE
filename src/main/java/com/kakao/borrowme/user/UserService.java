@@ -32,6 +32,7 @@ public class UserService {
                 .email(requestDTO.getEmail())
                 .password(requestDTO.getPassword())
                 .nickname(requestDTO.getNickname())
+                .role("student")
                 .build();
         userJPARepository.save(user);
     }
