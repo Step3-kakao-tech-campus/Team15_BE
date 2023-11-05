@@ -12,12 +12,12 @@ import com.kakao.borrowme.user.User;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,33 +27,43 @@ public class CoinService {
     private final ProductJPARepository productJPARepository;
     private final CoinLogService coinLogService;
     private final RentalJPARepository rentalJPARepository;
+    private final EntityManager entityManager;
 
     @Transactional
     public CoinResponse.GetUserCoinDTO getUserCoin(User user) {
 
-        Coin coin = coinJPARepository.findByUserId(user.getId()).orElseGet(
-                () -> coinJPARepository.save(Coin.builder().user(user).build())
-        );
+        Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);
+
+        if (coin == null) {
+            // 분리된 상태의 Coin 엔티티를 생성
+            Coin newCoin = Coin.builder().user(user).piece(0L).build();
+            // merge를 사용하여 분리된 엔티티를 영속 상태로 변경
+            Coin managedCoin = entityManager.merge(newCoin);
+
+            return new CoinResponse.GetUserCoinDTO(managedCoin);
+        }
 
         return new CoinResponse.GetUserCoinDTO(coin);
-
     }
 
     @Transactional
-    public CoinResponse.GetUserCoinDTO chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
+    public void chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
 
-        Coin coin = coinJPARepository.findByUserId(user.getId()).orElseGet(
-                () -> coinJPARepository.save(Coin.builder().user(user).build())
-        );
+        Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);
+
+        if (coin == null) {
+            // 분리된 상태의 Coin 엔티티를 생성
+            Coin newCoin = Coin.builder().user(user).piece(0L).build();
+            // merge를 사용하여 분리된 엔티티를 영속 상태로 변경
+            Coin managedCoin = entityManager.merge(newCoin);
+        }
+
         Long piece = chargeCoinDTO.getPiece();
 
         coin.updatePiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
         coinLogService.chargeCoinLog(coin, piece, "충전");
-
-        return new CoinResponse.GetUserCoinDTO(coin);
-
     }
 
     @Transactional
@@ -71,9 +81,14 @@ public class CoinService {
 
         Long totalPrice = rentalPrice * duration;
 
-        Coin coin = coinJPARepository.findByUserId(user.getId()).orElseGet(
-                () -> coinJPARepository.save(Coin.builder().user(user).build())
-        );
+        Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);
+
+        if (coin == null) {
+            // 분리된 상태의 Coin 엔티티를 생성
+            Coin newCoin = Coin.builder().user(user).piece(0L).build();
+            // merge를 사용하여 분리된 엔티티를 영속 상태로 변경
+            Coin managedCoin = entityManager.merge(newCoin);
+        }
 
         if (coin.getPiece() < totalPrice) {
             throw new InsufficientCoinException("충전 페이머니가 부족합니다.");
