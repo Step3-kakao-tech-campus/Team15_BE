@@ -53,4 +53,12 @@ public class ReviewService {
 
         reviewRepository.save(review);
     }
+
+    @Transactional
+    public void deleteReview(Long reviewId, User user) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow(
+                () -> new Exception404("존재하지 않는 리뷰입니다. : " + reviewId, "review_not_existed")
+        );
+        reviewRepository.delete(review);
+    }
 }

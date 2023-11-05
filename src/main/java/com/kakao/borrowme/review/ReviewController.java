@@ -32,4 +32,13 @@ public class ReviewController {
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success((Object)null);
         return ResponseEntity.ok(apiResult);
     }
+
+    // 리뷰 삭제
+    @DeleteMapping("/review/{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable Long reviewId,
+                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
+        reviewService.deleteReview(reviewId, userDetails.getUser());
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.success((Object)null);
+        return ResponseEntity.ok(apiResult);
+    }
 }
