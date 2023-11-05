@@ -84,8 +84,7 @@ public class ProductService {
 
     // 대여 비용 계산
     private Long calculateTotalPrice(LocalDateTime startAt, LocalDateTime endAt, Long rentalPrice) {
-        Long hours = Duration.between(startAt, endAt).toHours();
-        Long days = hours / 24;
-        return rentalPrice * days;
+        Long duration = Duration.between(startAt, endAt).toDays();
+        return rentalPrice * duration;
     }
 }
