@@ -56,6 +56,7 @@ public class CoinService {
             Coin newCoin = Coin.builder().user(user).piece(0L).build();
             // merge를 사용하여 분리된 엔티티를 영속 상태로 변경
             Coin managedCoin = entityManager.merge(newCoin);
+            coin = managedCoin;
         }
 
         Long piece = chargeCoinDTO.getPiece();
