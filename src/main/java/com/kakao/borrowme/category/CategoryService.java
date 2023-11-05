@@ -29,7 +29,7 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public Slice<CategoryResponse.ProductDTO> getProductByCategory(Long categoryId, Long lastProductId,     Pageable pageable) {
+    public Slice<CategoryResponse.ProductDTO> getProductByCategory(Long categoryId, Long lastProductId, Pageable pageable) {
         // categoryId를 사용하여 해당 카테고리에 속한 상품을 페이징하여 조회
         Slice<Product> productSlice = productJPARepository.findNextPageByCategoryId(categoryId, lastProductId, pageable);
 
