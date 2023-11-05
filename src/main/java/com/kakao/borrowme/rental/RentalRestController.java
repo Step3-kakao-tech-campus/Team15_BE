@@ -17,8 +17,8 @@ public class RentalRestController {
 
     // 대여 내역 조회
     @GetMapping("/rental")
-    public ResponseEntity<?> getRental() {
-        List<RentalResponse.getRentalDTO> responseDTOs = rentalService.getRental();
+    public ResponseEntity<?> getRental(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<RentalResponse.getRentalDTO> responseDTOs = rentalService.getRental(userDetails.getUser());
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
         return ResponseEntity.ok(apiResult);
     }

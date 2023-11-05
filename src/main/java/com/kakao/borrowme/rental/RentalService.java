@@ -23,7 +23,7 @@ public class RentalService {
     private final RentalJPARepository rentalRepository;
     private final ProductImageJPARepository productImageRepository;
 
-    public List<RentalResponse.getRentalDTO> getRental() {
+    public List<RentalResponse.getRentalDTO> getRental(User user) {
         List<Rental> rentalList = rentalRepository.findAll();
 
         List<RentalResponse.getRentalDTO> responseDTOs = rentalList.stream()
