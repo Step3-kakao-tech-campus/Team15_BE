@@ -24,11 +24,11 @@ public class ReviewController {
     }
 
     // 리뷰 등록
-    @PostMapping("/review/{productId}")
-    public ResponseEntity<?> postReview(@PathVariable Long productId,
+    @PostMapping("/review/{rentalId}")
+    public ResponseEntity<?> postReview(@PathVariable Long rentalId,
                                         @RequestBody ReviewRequest.ReviewDTO requestDTO,
                                         @AuthenticationPrincipal CustomUserDetails userDetails) {
-        reviewService.postReview(productId, requestDTO, userDetails.getUser());
+        reviewService.postReview(rentalId, requestDTO, userDetails.getUser());
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success((Object)null);
         return ResponseEntity.ok(apiResult);
     }

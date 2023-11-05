@@ -4,6 +4,8 @@ import com.kakao.borrowme._core.errors.exception.Exception404;
 import com.kakao.borrowme._core.security.CustomUserDetails;
 import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.product.ProductJPARepository;
+import com.kakao.borrowme.rental.Rental;
+import com.kakao.borrowme.rental.RentalJPARepository;
 import com.kakao.borrowme.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewJPARepository reviewRepository;
-    private final ProductJPARepository productRepository;
+    private final RentalJPARepository rentalRepository;
 
     @Transactional(readOnly = true)
     public List<ReviewResponse.ReviewDTO> getReview(Long productId) {
@@ -31,15 +33,17 @@ public class ReviewService {
     }
 
     @Transactional
-    public void postReview(Long productId, ReviewRequest.ReviewDTO requestDTO, User user) {
-        Product product = productRepository.findById(productId).orElseThrow(
-                () -> new Exception404("존재하지 않는 제품입니다. : " + productId, "review_not_existed"));
+    public void postReview(Long rentalId, ReviewRequest.ReviewDTO requestDTO, User user) {
+        Rental rental = rentalRepository.findById(rentalId).orElseThrow(
+                () -> new Exception404("존재하지 않는 대여 기록입니다. : " + rentalId, "rental_not_existed")
+        );
 
         Review review = new Review();
-        review.updateProduct(product);
+        review.updateProduct(rental.getProduct());
         review.updateStar(requestDTO.getStar());
         review.updateContent(requestDTO.getContent());
 
         reviewRepository.save(review);
     }
 }
+
