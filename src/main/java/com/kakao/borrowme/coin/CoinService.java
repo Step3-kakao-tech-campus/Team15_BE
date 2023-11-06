@@ -79,17 +79,17 @@ public class CoinService {
         LocalDateTime endDateTime = parseDateTime(endAt);
 
         // 예약 종료일이 예약 시작일보다 빠른 경우 예외 처리
-        if (startDateTime.isAfter(endDateTime)) {
+        if (startDateTime.toLocalDate().isAfter(endDateTime.toLocalDate())) {
             throw new Exception400("예약 종료일이 예약 시작일보다 빠릅니다. : " + endAt, "rent_incorrect_period");
         }
 
         // 선택된 날짜가 과거로 설정 경우 예외 처리
-        LocalDateTime now = LocalDateTime.now();
-        if (startDateTime.isBefore(now) || endDateTime.isBefore(now)) {
+        LocalDate today = LocalDate.now();
+        if (startDateTime.toLocalDate().isBefore(today) || endDateTime.toLocalDate().isBefore(today)) {
             throw new Exception400("과거 날짜값은 대여할 수 없습니다. : " + endAt, "rent_past_period");
         }
 
-        Long duration = Duration.between(startDateTime, endDateTime).toDays(); // 대여 기간 (시간)
+        Long duration = Duration.between(startDateTime, endDateTime).toDays() + 1; // 대여 기간 (시간)
 
         Long totalPrice = rentalPrice * duration;
 
@@ -110,11 +110,10 @@ public class CoinService {
         coin.updatePiece(coin.getPiece() - totalPrice);
         coinJPARepository.save(coin);
 
-        String rentalStatus = (startDateTime.toLocalDate().isEqual(LocalDate.now())) ? "대여중" : "예약중";
+        String rentalStatus = (startDateTime.toLocalDate().isEqual(today)) ? "대여중" : "예약중";
 
-        Rental rental = Rental.builder()
-                .status(rentalStatus) // 대여 상태 설정
-                .build();
+        Rental rental = Rental.builder().product(product).user(user).status(rentalStatus)
+                                        .startAt(startDateTime).endAt(endDateTime).build();
         rentalJPARepository.save(rental);
 
         coinLogService.useCoinLog(coin, -totalPrice, "결제");
@@ -122,7 +121,8 @@ public class CoinService {
 
     private LocalDateTime parseDateTime(String dateTimeString) {
         try {
-            return LocalDateTime.parse(dateTimeString, DateTimeFormatter.ISO_DATE_TIME);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            return LocalDateTime.parse(dateTimeString, formatter);
         } catch (DateTimeParseException e) {
             throw new Exception400("잘못된 날짜 형식입니다.","wrong_date_type");
         }
