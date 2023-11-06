@@ -14,4 +14,4 @@ RUN chmod +x gradlew
 
 RUN ./gradlew clean build -x test
 
-COPY --from=builder /workspace/Team15_BE/build/libs/borrowme-0.0.1-SNAPSHOT.jar
+COPY --from=builder /workspace/Team15_BE/build/libs/borrowme-0.0.1-SNAPSHOT.jar .
