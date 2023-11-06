@@ -16,4 +16,6 @@ RUN ./gradlew clean build -x test
 
 EXPOSE 8080
 
+FROM krmp-d2hub-idock.9rum.cc/goorm/eclipse-temurin:17-jre
+
 COPY --from=builder /workspace/Team15_BE/build/libs/borrowme-0.0.1-SNAPSHOT.jar .
