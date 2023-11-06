@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -77,6 +78,17 @@ public class CoinService {
         LocalDateTime startDateTime = parseDateTime(startAt);
         LocalDateTime endDateTime = parseDateTime(endAt);
 
+        // 예약 종료일이 예약 시작일보다 빠른 경우 예외 처리
+        if (startDateTime.isAfter(endDateTime)) {
+            throw new Exception400("예약 종료일이 예약 시작일보다 빠릅니다. : " + endAt, "rent_incorrect_period");
+        }
+
+        // 선택된 날짜가 과거로 설정 경우 예외 처리
+        LocalDateTime now = LocalDateTime.now();
+        if (startDateTime.isBefore(now) || endDateTime.isBefore(now)) {
+            throw new Exception400("과거 날짜값은 대여할 수 없습니다. : " + endAt, "rent_past_period");
+        }
+
         Long duration = Duration.between(startDateTime, endDateTime).toDays(); // 대여 기간 (시간)
 
         Long totalPrice = rentalPrice * duration;
@@ -92,13 +104,17 @@ public class CoinService {
         }
 
         if (coin.getPiece() < totalPrice) {
-            throw new Exception400("충전 페이머니가 부족합니다. 충전페이지로 이동합니다.", "create_insufficient_coin");
+            throw new Exception400("충전 페이머니가 부족합니다. 충전페이지로 이동합니다. : " + coin.getPiece(), "create_insufficient_coin");
         }
 
         coin.updatePiece(coin.getPiece() - totalPrice);
         coinJPARepository.save(coin);
 
-        Rental rental = Rental.builder().build();
+        String rentalStatus = (startDateTime.toLocalDate().isEqual(LocalDate.now())) ? "대여중" : "예약중";
+
+        Rental rental = Rental.builder()
+                .status(rentalStatus) // 대여 상태 설정
+                .build();
         rentalJPARepository.save(rental);
 
         coinLogService.useCoinLog(coin, -totalPrice, "결제");
