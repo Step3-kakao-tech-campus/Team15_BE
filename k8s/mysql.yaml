@@ -15,31 +15,21 @@ spec:
     spec:
       containers:
         - name: mysql
-          # 여러분의 mariadb image 주소를 입력해주세요.
-          image: mysql/mysql-server:8.0.27
+          # 여러분의 mysql image 주소를 입력해주세요.
+          image: mysql/mysql-server:8.0.33
           env:
             - name: TZ
               value: Asia/Seoul
-
-            - name: MYSQL_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: USER
-
             - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: PASSWORD
-
+              value: root
             - name: MYSQL_DATABASE
-              value: pickup
-
+              value: borrowme_db
             - name: MYSQL_DISABLE_UPGRADE_BACKUP
               value: '1'
-
           volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: data
+              subPath: mysql
             - mountPath: /docker-entrypoint-initdb.d
               name: init-db
           resources:
