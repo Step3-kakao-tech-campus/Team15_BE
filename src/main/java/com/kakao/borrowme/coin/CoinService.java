@@ -2,7 +2,6 @@ package com.kakao.borrowme.coin;
 
 import com.kakao.borrowme._core.errors.exception.Exception400;
 import com.kakao.borrowme._core.errors.exception.Exception404;
-import com.kakao.borrowme._core.errors.exception.InsufficientCoinException;
 import com.kakao.borrowme.coin.log.CoinLogService;
 import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.product.ProductJPARepository;
@@ -89,17 +88,17 @@ public class CoinService {
             Coin newCoin = Coin.builder().user(user).piece(0L).build();
             // merge를 사용하여 분리된 엔티티를 영속 상태로 변경
             Coin managedCoin = entityManager.merge(newCoin);
+            coin = managedCoin;
         }
 
         if (coin.getPiece() < totalPrice) {
-            throw new InsufficientCoinException("충전 페이머니가 부족합니다.");
+            throw new Exception400("충전 페이머니가 부족합니다. 충전페이지로 이동합니다.", "create_insufficient_coin");
         }
 
         coin.updatePiece(coin.getPiece() - totalPrice);
         coinJPARepository.save(coin);
 
-        Rental rental = Rental.builder().status("대여중") // 대여중 상태로 설정
-                .build();
+        Rental rental = Rental.builder().build();
         rentalJPARepository.save(rental);
 
         coinLogService.useCoinLog(coin, -totalPrice, "결제");

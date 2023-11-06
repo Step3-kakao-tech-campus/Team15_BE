@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> unknownServerError(Exception e){
         String reason = "internal_server_error"; // 내부 서버 오류를 나타내는 이유
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.error(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, reason);
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.error("서버 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR, reason);
 
         return new ResponseEntity<>(apiResult, HttpStatus.INTERNAL_SERVER_ERROR);
     }
