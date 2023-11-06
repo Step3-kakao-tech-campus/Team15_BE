@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 
 @Component
 public class JWTProvider {
-    Long ACCESS_EXP = 14400;
-    String TOKEN_PREFIX = "Bearer ";
-    String HEADER = "Authorization";
-    String SECRET = "BUklzQUpRMEN6cm5iR0ZTZDB3WjhpNG8tdWF0RmNLeTNrTVhnVGpadFhKT05lMjVMOEx2MHJuUEQyaEhReXNhQW1sdkVBTHdfd2NCcMPL-OPBn4IDkAHv-9SnixKYAQQ";
+    public static final Long ACCESS_EXP = 14400L;
+    public static final String TOKEN_PREFIX = "Bearer ";
+    public static final String HEADER = "Authorization";
+    public static final String SECRET = "BUklzQUpRMEN6cm5iR0ZTZDB3WjhpNG8tdWF0RmNLeTNrTVhnVGpadFhKT05lMjVMOEx2MHJuUEQyaEhReXNhQW1sdkVBTHdfd2NCcMPL-OPBn4IDkAHv-9SnixKYAQQ";
 
     public static String create(User user) {
         String jwt = JWT.create()
