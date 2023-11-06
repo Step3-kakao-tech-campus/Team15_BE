@@ -21,3 +21,5 @@ FROM gradle:8.2.1-jdk11
 COPY --from=builder /workspace/Team15_BE/build/libs/borrowme-0.0.1-SNAPSHOT.jar .
 
 ENV DATABASE_URL=jdbc:mysql://mysql:3306/borrowme_db
+
+CMD ["java", "-jar", "-Dspring.profiles.active=dev", "borrowme-0.0.1-SNAPSHOT.jar"]
