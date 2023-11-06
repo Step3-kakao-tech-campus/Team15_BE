@@ -1,4 +1,4 @@
-FROM gradle:8.2.1-jdk11
+FROM gradle:8.2.1-jdk11 as builder
 
 WORKDIR /workspace/Team15_BE
 
@@ -16,6 +16,6 @@ RUN ./gradlew clean build -x test
 
 EXPOSE 8080
 
-FROM gradle:8.2.1-jdk11 as builder
+FROM gradle:8.2.1-jdk11
 
 COPY --from=builder /workspace/Team15_BE/build/libs/borrowme-0.0.1-SNAPSHOT.jar .
