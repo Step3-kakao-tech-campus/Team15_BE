@@ -16,7 +16,7 @@ spec:
       containers:
         - name: mysql
           # 여러분의 mysql image 주소를 입력해주세요.
-          image: mysql/mysql-server:8.0.27
+          image: mysql/mysql-server:8.0.33
           env:
             - name: TZ
               value: Asia/Seoul
