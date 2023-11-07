@@ -1,10 +1,10 @@
-CREATE SCHEMA IF NOT EXISTS `borrowme_db` DEFAULT CHARACTER SET utf8mb4;
+CREATE SCHEMA IF NOT EXISTS `borrowme_db_test` DEFAULT CHARACTER SET utf8mb4;
 
 CREATE USER root@'%' identified by 'Kakao@123';
-GRANT ALL ON borrowme_db.* TO 'root'@'%';
+GRANT ALL ON borrowme_db_test.* TO 'root'@'%';
 FLUSH PRIVILEGES;
 
-USE `borrowme_db`;
+USE `borrowme_db_test`;
 
 SET foreign_key_checks = 0;    # 외래키 체크 설정 해제
 DROP TABLE IF EXISTS users;
