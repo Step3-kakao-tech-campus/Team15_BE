@@ -1,6 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS `borrowme_db` DEFAULT CHARACTER SET utf8mb4;
 
-GRANT ALL PRIVILEGES ON borrowme_db.* TO 'root'@'%'; 
+CREATE USER root@'%' identified by 'Kakao@123';
+GRANT ALL ON borrowme_db.* TO 'root'@'%';
 FLUSH PRIVILEGES;
 
 USE `borrowme_db`;
