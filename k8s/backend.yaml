@@ -20,7 +20,7 @@ spec:
             - name: TZ
               value: Asia/Seoul
             - name: DATABASE_URL
-              value: jdbc:mysql://localhost:3306/borrowme_db
+              value: jdbc:mysql://mysql:3306/borrowme_db
           resources:
             requests:
               memory: 1Gi
