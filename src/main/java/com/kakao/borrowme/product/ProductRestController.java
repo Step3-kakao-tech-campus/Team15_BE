@@ -7,10 +7,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor // defalut 생성자 생성
 @RestController
@@ -19,7 +18,7 @@ public class ProductRestController {
     private final ProductService productService;
 
     // 전체 제품 조회
-    @GetMapping("/products")
+    @GetMapping("/product")
     public ResponseEntity<?> findAll(
             @RequestParam(value = "lastProductId", required = false) Long lastProductId,
             @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
@@ -29,9 +28,9 @@ public class ProductRestController {
     }
 
     // 특정 제품 조회
-    @GetMapping("/products/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
-        ProductResponse.FindByIdDTO responseDTO = productService.findById(id);
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<?> findById(@PathVariable Long productId) {
+        ProductResponse.FindByIdDTO responseDTO = productService.findById(productId);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
@@ -41,8 +40,17 @@ public class ProductRestController {
     public ResponseEntity<?> searchProducts(@RequestParam(value = "lastProductId", required = false) Long lastProductId,
                                             @RequestParam("keyword") String keyword,
                                             @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        Slice<ProductResponse.FindAllDTO> responseDTOs = productService.searchProducts(lastProductId, keyword, pageable);
+        Slice<ProductResponse.FindAllDTO> responseDTOs = productService.searchProduct(lastProductId, keyword, pageable);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
+        return ResponseEntity.ok(apiResult);
+    }
+
+    // 대여하기
+    @PostMapping("/product/{productId}/rent")
+    public ResponseEntity<?> rentProduct(@PathVariable Long productId,
+                                         @RequestBody ProductRequest.RentDTO requestDTO) {
+        ProductResponse.RentDTO responseDTO = productService.rentProduct(productId, requestDTO);
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
         return ResponseEntity.ok(apiResult);
     }
 }
