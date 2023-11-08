@@ -1,6 +1,5 @@
 package com.kakao.borrowme.coin;
 
-import com.kakao.borrowme.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

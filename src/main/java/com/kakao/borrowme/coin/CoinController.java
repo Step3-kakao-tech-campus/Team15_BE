@@ -25,8 +25,8 @@ public class CoinController {
     // 2. 충전하기
     @PostMapping("/charge")
     public ResponseEntity<?> chargeCoin(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.ChargeCoinDTO chargeCoinDTO) {
-        CoinResponse.GetUserCoinDTO responseDTO = coinService.chargeCoin(userDetails.getUser(), chargeCoinDTO);
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
+        coinService.chargeCoin(userDetails.getUser(), chargeCoinDTO);
+        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(null);
         return ResponseEntity.ok(apiResult);
     }
 
