@@ -15,4 +15,6 @@ public interface ProductJPARepository extends JpaRepository<Product, Long> {
   
     @Query("SELECT p FROM Product p WHERE p.id > :lastProductId AND p.name LIKE %:keyword% ORDER BY p.id ASC")
     Slice<Product> searchProducts(@Param("lastProductId") Long lastProductId, @Param("keyword") String keyword, Pageable pageable);
+
+    List<Product> findByCategoryId(Long categoryId);
 }

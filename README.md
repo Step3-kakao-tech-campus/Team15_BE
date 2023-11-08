@@ -50,7 +50,9 @@ cd src
 ```
 2. 실행
 ```
-
+./gradlew build
+cd build/libs
+java -jar borrowme-0.0.1-SNAPSHOT.jar
 ```
 
 ## 자료 모음
