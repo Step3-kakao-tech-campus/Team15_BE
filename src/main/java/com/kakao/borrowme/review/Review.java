@@ -33,12 +33,24 @@ public class Review {
     @JoinColumn(name = "product_pk")
     private Product product;
 
+    public void updateProduct(@NotNull Product product) {
+        this.product = product;
+    }
+
     @NotNull
     private int star;
+
+    public void updateStar(@NotNull int star) {
+        this.star = star;
+    }
 
     @NotNull
     @Column(length = 600)
     private String content;
+
+    public void updateContent(@NotNull String content) {
+        this.content = content;
+    }
 
     @NotNull
     @CreatedDate

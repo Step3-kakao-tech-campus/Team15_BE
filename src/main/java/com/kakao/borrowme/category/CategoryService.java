@@ -6,12 +6,12 @@ import com.kakao.borrowme.product.ProductJPARepository;
 import com.kakao.borrowme.product.image.ProductImage;
 import com.kakao.borrowme.product.image.ProductImageJPARepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,46 +22,25 @@ public class CategoryService {
     private final ProductImageJPARepository productImageJPARepository;
 
     @Transactional(readOnly = true)
-    public List<CategoryResponse.CategoryDTO> getCategory() {
-
+    public CategoryResponse.CategoryDTO getCategory() {
         // 모든 카테고리 조회
         List<Category> categoryList = categoryJPARepository.findAll();
-
-        // Category 엔티티를 DTO로 변환
-        List<CategoryResponse.CategoryDTO> responseDTOs = categoryList.stream()
-                .map(category -> new CategoryResponse.CategoryDTO(category.getId(), category.getName()))
-                .collect(Collectors.toList());
-
-        return responseDTOs;
+        return new CategoryResponse.CategoryDTO(categoryList);
     }
 
     @Transactional(readOnly = true)
-    public List<CategoryResponse.ProductDTO> getCategoryProduct(Long categoryId) {
+    public Slice<CategoryResponse.ProductDTO> getProductByCategory(Long categoryId, Long lastProductId, Pageable pageable) {
+        // categoryId를 사용하여 해당 카테고리에 속한 상품을 페이징하여 조회
+        Slice<Product> productSlice = productJPARepository.findNextPageByCategoryId(categoryId, lastProductId, pageable);
 
-        // categoryId를 사용하여 해당 카테고리에 속한 상품을 조회
-        List<Product> productList = productJPARepository.findByCategoryId(categoryId);
-
-        if (productList.isEmpty()) {
+        if (!productSlice.hasContent()) {
             throw new Exception404("해당 카테고리가 존재하지 않습니다. : " + categoryId, "category_not_existed");
         }
 
-        // Product 엔티티를 DTO로 변환
-        List<CategoryResponse.ProductDTO> responseDTOs = new ArrayList<>();
-
-        for (Product product : productList) {
-            ProductImage productImage = productImageJPARepository.findByProductId(product.getId());
-            String productImagePath = productImage.getProductImagePath();
-
-            CategoryResponse.ProductDTO productDTO = new CategoryResponse.ProductDTO(
-                    product.getId(),
-                    product.getName(),
-                    product.getRentalPrice(),
-                    product.getRegularPrice(),
-                    productImagePath
-            );
-            responseDTOs.add(productDTO);
-        }
-
-        return responseDTOs;
+        Slice<CategoryResponse.ProductDTO> responseDTOSlice = productSlice.map(product -> {
+            ProductImage productImage = productImageJPARepository.findByCategoryId(product.getCategory().getId());
+            return new CategoryResponse.ProductDTO(product, productImage);
+        });
+        return responseDTOSlice;
     }
 }

@@ -39,6 +39,10 @@ public class Rental {
     @Column(length = 45)
     private String status;
 
+    public void updateStatus(@NotNull String status) {
+        this.status = status;
+    }
+
     @Builder
     public Rental(Long id, Product product, User user, LocalDateTime startAt, LocalDateTime endAt, String status) {
         this.id = id;

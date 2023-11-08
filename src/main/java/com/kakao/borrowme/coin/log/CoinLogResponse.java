@@ -3,6 +3,7 @@ package com.kakao.borrowme.coin.log;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,7 @@ public class CoinLogResponse {
                 this.id = coinLog.getId();
                 this.piece = coinLog.getPiece();
                 this.coinType = coinLog.getCoinType();
-                this.createAt = coinLog.getCreateAt().toString();
-            }
+                this.createAt = coinLog.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));            }
         }
     }
 }

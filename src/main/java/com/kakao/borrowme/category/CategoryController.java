@@ -2,13 +2,12 @@ package com.kakao.borrowme.category;
 
 import com.kakao.borrowme._core.utils.ApiUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,14 +18,16 @@ public class CategoryController {
 
     @GetMapping("")
     public ResponseEntity<?> getCategory() {
-        List<CategoryResponse.CategoryDTO> responseDTOs = categoryService.getCategory();
+        CategoryResponse.CategoryDTO responseDTOs = categoryService.getCategory();
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
         return ResponseEntity.ok(apiResult);
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getCategoryProduct(@PathVariable Long categoryId) {
-        List<CategoryResponse.ProductDTO> responseDTOs = categoryService.getCategoryProduct(categoryId);
+    public ResponseEntity<?> getProductByCategory(@PathVariable Long categoryId,
+                                                  @RequestParam(value = "lastProductId", required = false) Long lastProductId,
+                                                  @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        Slice<CategoryResponse.ProductDTO> responseDTOs = categoryService.getProductByCategory(categoryId, lastProductId, pageable);
         ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
         return ResponseEntity.ok(apiResult);
     }

@@ -17,7 +17,6 @@ public class CoinLogService {
     private final CoinLogJPARepository coinLogJPARepository;
 
     public void chargeCoinLog(Coin coin, Long piece, String coinType) {
-
         CoinLog coinLog = CoinLog.builder()
                 .coin(coin)
                 .piece(piece)
@@ -26,11 +25,9 @@ public class CoinLogService {
                 .build();
 
         coinLogJPARepository.save(coinLog);
-
     }
 
     public void useCoinLog(Coin coin, Long piece, String coinType) {
-
         CoinLog coinLog = CoinLog.builder()
                 .coin(coin)
                 .piece(piece)
@@ -39,7 +36,6 @@ public class CoinLogService {
                 .build();
 
         coinLogJPARepository.save(coinLog);
-
     }
 
     public CoinLogResponse.GetUserCoinLogDTO getUserCoinLog(User user) {

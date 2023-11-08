@@ -1,22 +1,21 @@
 package com.kakao.borrowme.category;
 
+import com.kakao.borrowme.product.Product;
+import com.kakao.borrowme.product.image.ProductImage;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 public class CategoryResponse {
 
     @Getter @Setter
     public static class CategoryDTO {
+        private List<Category> categories;
 
-        private Long id;
-        private String name;
-
-
-        public CategoryDTO(Long id, String name) {
-            this.id = id;
-            this.name = name;
+        public CategoryDTO(List<Category> categories) {
+            this.categories = categories;
         }
-
     }
 
     @Getter @Setter
@@ -28,12 +27,12 @@ public class CategoryResponse {
         private Long regularPrice;
         private String productImagePath;
 
-        public ProductDTO(Long productId, String productName, Long rentalPrice, Long regularPrice, String productImagePath) {
-            this.productId = productId;
-            this.productName = productName;
-            this.rentalPrice = rentalPrice;
-            this.regularPrice = regularPrice;
-            this.productImagePath = productImagePath;
+        public ProductDTO(Product product, ProductImage productImage) {
+            this.productId = product.getId();
+            this.productName = product.getName();
+            this.rentalPrice = product.getRentalPrice();
+            this.regularPrice = product.getRegularPrice();
+            this.productImagePath = productImage.getProductImagePath();
         }
     }
 }
