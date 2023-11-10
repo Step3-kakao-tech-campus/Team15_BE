@@ -96,6 +96,8 @@ java -jar borrowme-0.0.1-SNAPSHOT.jar
 ```
 
 ## 🔗 자료 모음
+- [테스트 시나리오 명세서](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1&p=afa847dd4b634ef6b5818f71512dcefa&pm=s)
+- [테스트 결과 보고서](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1&p=4aeff7c7c53c4c09b2576dd26891a289&pm=s)
 - [API](https://www.notion.so/loopy-lim/BE_API-c02e5946141b45f889a22cb909d0d617)
 - [FIGMA](https://www.figma.com/file/CoUEoS5JYZz78AYT5c4Oq1/%EC%99%80%EC%9D%B4%EC%96%B4-%ED%94%84%EB%A0%88%EC%9E%84?type=design&node-id=0%3A1&mode=design&t=vQyMvCGKAIbmYD07-1)
 - [노션](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1)
