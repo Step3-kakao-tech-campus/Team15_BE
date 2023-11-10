@@ -29,7 +29,8 @@ public class CoinLogResponse {
                 this.id = coinLog.getId();
                 this.piece = coinLog.getPiece();
                 this.coinType = coinLog.getCoinType();
-                this.createAt = coinLog.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));            }
+                this.createAt = coinLog.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            }
         }
     }
 }
