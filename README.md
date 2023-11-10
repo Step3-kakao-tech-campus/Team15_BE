@@ -14,6 +14,7 @@
 - [서비스 소개](#서비스-소개)
 - [시작가이드](#시작가이드)
 - [자료 모음](#자료-모음)
+</br>
 
 ## 개요
 <div align="center"><a href="https://ibb.co/p4wLTJX"><img src="https://i.ibb.co/5s4R3Bc/001-1.png" width="450" height="450" alt="001-1" border="0"></a></div>
@@ -21,7 +22,7 @@
 
 - 프로젝트 이름 : 보로미
 - 프로젝트 한 줄 소개 : 대학생들을 위한, 쉽고 빠른 대여 서비스
-- 프로젝트 지속기간: 2023.09-2022.11
+- 프로젝트 기간: 2023.09-2022.11
 - 개발 언어: JAVA & SPRING (BE)
 </br>
 
@@ -59,3 +60,5 @@ java -jar borrowme-0.0.1-SNAPSHOT.jar
 - [ERD](https://www.notion.so/loopy-lim/ERD-21bc893f38a0482f99877ae825707a89?pvs=4#d1753d7c567546adabec87c282137b63)
 - [API](https://www.notion.so/loopy-lim/BE_API-c02e5946141b45f889a22cb909d0d617)
 - [FIGMA](https://www.figma.com/file/CoUEoS5JYZz78AYT5c4Oq1/%EC%99%80%EC%9D%B4%EC%96%B4-%ED%94%84%EB%A0%88%EC%9E%84?type=design&node-id=0%3A1&mode=design&t=vQyMvCGKAIbmYD07-1)
+- [노션](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1)
+- [팀자체 노션](https://www.notion.so/loopy-lim/Kakao-Team-15-2f7a7a7b9c0049a5afdbc7933452083a/)
