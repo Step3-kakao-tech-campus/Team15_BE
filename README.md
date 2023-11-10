@@ -67,6 +67,15 @@
 |페이머니 충전 및 결제하기|<a href="https://ibb.co/GkywM49"><img src="https://i.ibb.co/Y8m9dFX/image.png" alt="image" border="0"></a>|페이머니를 통해 결제를 진행합니다. <br>충전된 페이머니 잔액이 부족하면 충전페이지로 바로 이동합니다.|
 |대여내역 조회 및 리뷰 작성하기|<a href="https://ibb.co/znFRXbn"><img src="https://i.ibb.co/cgwF6tg/image.png" alt="image" border="0"></a>|대여내역을 조회하여 리뷰를 작성할 수 있습니다.|
 
+## 🗒️ 상세 기능 소개
+더 자세한 기능별 코드 소개는 [노션](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1&p=7cde2845263742dba98cacbe4f617f8b&pm=s)을 참고해주세요 :)
+
+</br>
+
+## 💚 ERD
+
+</br>
+
 ## ☑️ 시작가이드
 > Java : 11, Spring : 2.7.16
 1. 프로젝트 클론
@@ -83,7 +92,6 @@ java -jar borrowme-0.0.1-SNAPSHOT.jar
 ```
 
 ## 🔗 자료 모음
-- [ERD](https://www.notion.so/loopy-lim/ERD-21bc893f38a0482f99877ae825707a89?pvs=4#d1753d7c567546adabec87c282137b63)
 - [API](https://www.notion.so/loopy-lim/BE_API-c02e5946141b45f889a22cb909d0d617)
 - [FIGMA](https://www.figma.com/file/CoUEoS5JYZz78AYT5c4Oq1/%EC%99%80%EC%9D%B4%EC%96%B4-%ED%94%84%EB%A0%88%EC%9E%84?type=design&node-id=0%3A1&mode=design&t=vQyMvCGKAIbmYD07-1)
 - [노션](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1)
