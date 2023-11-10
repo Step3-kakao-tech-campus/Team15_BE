@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -57,17 +60,17 @@ public class ProductService {
         Product product = productRepository.findById(productId).orElseThrow(
                 () -> new Exception404("존재하지 않는 제품입니다. : " + productId, "product_not_existed"));
 
-        LocalDateTime startAt = requestDTO.getStartAt();
-        LocalDateTime endAt = requestDTO.getEndAt();
+        LocalDateTime startAt = parseDateTime(requestDTO.getStartAt());
+        LocalDateTime endAt = parseDateTime(requestDTO.getEndAt());
 
         // 예약 종료일이 예약 시작일보다 빠른 경우 예외 처리
-        if (startAt.isAfter(endAt)) {
+        if (startAt.toLocalDate().isAfter(endAt.toLocalDate())) {
             throw new Exception400("예약 종료일이 예약 시작일보다 빠릅니다. : " + endAt, "rent_incorrect_period");
         }
 
         // 선택된 날짜가 과거로 설정 경우 예외 처리
-        LocalDateTime now = LocalDateTime.now();
-        if (startAt.isBefore(now) || endAt.isBefore(now)) {
+        LocalDate today = LocalDate.now();
+        if (startAt.toLocalDate().isBefore(today) || endAt.toLocalDate().isBefore(today)) {
             throw new Exception400("과거 날짜값은 대여할 수 없습니다. : " + endAt, "rent_past_period");
         }
 
@@ -84,7 +87,16 @@ public class ProductService {
 
     // 대여 비용 계산
     private Long calculateTotalPrice(LocalDateTime startAt, LocalDateTime endAt, Long rentalPrice) {
-        Long duration = Duration.between(startAt, endAt).toDays();
+        Long duration = Duration.between(startAt, endAt).toDays()+1;
         return rentalPrice * duration;
+    }
+
+    private LocalDateTime parseDateTime(String dateTimeString) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            return LocalDateTime.parse(dateTimeString, formatter);
+        } catch (DateTimeParseException e) {
+            throw new Exception400("잘못된 날짜 형식입니다.","wrong_date_type");
+        }
     }
 }

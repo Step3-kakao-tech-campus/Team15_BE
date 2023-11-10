@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +28,14 @@ public class RentalService {
 
     public List<RentalResponse.getRentalDTO> getRental(User user) {
         List<Rental> rentalList = rentalRepository.findAll();
+
+        // 대여 상태를 업데이트하는 로직 추가
+        rentalList.stream()
+                .filter(rental -> "예약중".equals(rental.getStatus()) && LocalDate.now().isAfter(rental.getStartAt().toLocalDate()))
+                .forEach(rental -> {
+                    rental.updateStatus("대여중");
+                    rentalRepository.save(rental);
+                });
 
         List<RentalResponse.getRentalDTO> responseDTOs = rentalList.stream()
                 .map(rental -> {
@@ -43,9 +54,9 @@ public class RentalService {
                 () -> new Exception404("존재하지 않는 대여 기록입니다. : " + rentalId, "rental_not_existed")
         );
 
-        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDate today = LocalDate.now();
 
-        if (currentDateTime.isBefore(rental.getEndAt())) {
+        if (today.isBefore(rental.getEndAt().toLocalDate())) {
             throw new Exception400("반납 예정일이 아닙니다." + rental.getEndAt(), "return_early_returned");
         }
 

@@ -52,6 +52,9 @@ public class ReviewService {
         review.updateContent(requestDTO.getContent());
 
         reviewRepository.save(review);
+
+        rental.updateStatus("리뷰완료");
+        rentalRepository.save(rental);
     }
 
     @Transactional
