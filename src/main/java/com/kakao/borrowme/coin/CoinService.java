@@ -62,7 +62,7 @@ public class CoinService {
         coin.updatePiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
-        coinLogService.chargeCoinLog(coin, piece, "충전"); // 코인 충전 내역 추가
+        coinLogService.coinLog(coin, piece, "충전"); // 코인 충전 내역 추가
     }
 
     @Transactional
@@ -114,7 +114,7 @@ public class CoinService {
                                         .startAt(startDateTime).endAt(endDateTime).build();
         rentalJPARepository.save(rental);
 
-        coinLogService.useCoinLog(coin, -totalPrice, "결제");
+        coinLogService.coinLog(coin, -totalPrice, "결제");
     }
 
     private LocalDateTime parseDateTime(String dateTimeString) {
