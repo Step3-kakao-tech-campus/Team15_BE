@@ -27,7 +27,8 @@ public class RentalService {
 
         // 대여 상태를 업데이트하는 로직 추가
         rentalList.stream()
-                .filter(rental -> "예약중".equals(rental.getStatus()) && LocalDate.now().isEqual(rental.getStartAt().toLocalDate()))
+                .filter(rental -> "예약중".equals(rental.getStatus()) &&
+                       (LocalDate.now().isAfter(rental.getStartAt().toLocalDate()) || LocalDate.now().isEqual(rental.getStartAt().toLocalDate())))
                 .forEach(rental -> {
                     rental.updateStatus("대여중");
                     rentalJPARepository.save(rental);
