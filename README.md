@@ -53,6 +53,8 @@
 |[김근호](https://github.com/geunho00)|[박찬](https://github.com/zxc88kr)|[이지혜](https://github.com/C0Zl)|
 </br>
 
+## 팀 공통 목표(FE, BE)
+
 ## 서비스 소개
 > 대학생들을 위한 쉽고 빠른 대여 서비스, Borrow Me
 
@@ -83,11 +85,10 @@
 
 ## 상세 기능 소개
 더 자세한 기능별 코드 소개는 [노션](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1&p=7cde2845263742dba98cacbe4f617f8b&pm=s)을 참고해주세요 :)
-
 </br>
 
 ## ERD
-
+![BorrowMeERD](https://i.imgur.com/9Pz7Ka7.png)
 </br>
 
 ## 시작 가이드
