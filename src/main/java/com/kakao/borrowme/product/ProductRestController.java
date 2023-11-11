@@ -33,7 +33,7 @@ public class ProductRestController {
 
     // 제품 검색
     @GetMapping("/search")
-    public ResponseEntity<?> searchProducts(@RequestParam(value = "lastProductId", required = false) Long lastProductId,
+    public ResponseEntity<?> searchProduct(@RequestParam(value = "lastProductId", required = false) Long lastProductId,
                                             @RequestParam("keyword") String keyword,
                                             @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
         Slice<ProductResponse.FindAllDTO> responseDTOs = productService.searchProduct(lastProductId, keyword, pageable);
