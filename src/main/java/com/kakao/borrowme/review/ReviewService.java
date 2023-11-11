@@ -15,15 +15,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
-
     private final ReviewJPARepository reviewRepository;
     private final RentalJPARepository rentalRepository;
 
     @Transactional(readOnly = true)
     public List<ReviewResponse.ReviewDTO> getReview(Long productId) {
-        List<Review> reviews = reviewRepository.findAllByProductId(productId);
+        List<Review> reviewList = reviewRepository.findAllByProductId(productId);
 
-        List<ReviewResponse.ReviewDTO> responseDTOs = reviews.stream()
+        List<ReviewResponse.ReviewDTO> responseDTOs = reviewList.stream()
                 .map(review -> new ReviewResponse.ReviewDTO(review))
                 .collect(Collectors.toList());
 
@@ -33,17 +32,17 @@ public class ReviewService {
     @Transactional
     public void postReview(Long rentalId, ReviewRequest.ReviewDTO requestDTO, User user) {
         Rental rental = rentalRepository.findById(rentalId).orElseThrow(
-                () -> new Exception404("존재하지 않는 대여 기록입니다. : " + rentalId, "rental_not_existed")
+                () -> new Exception404("존재하지 않는 대여 기록입니다.:" + rentalId, "rental_not_existed")
         );
 
         int star = requestDTO.getStar();
         if (star < 0 || star > 5) {
-            throw new Exception400("별점은 0에서 5 사이의 값으로 작성해주세요." + star, "review_star_length");
+            throw new Exception400("별점은 0에서 5 사이의 값으로 작성해주세요.:" + star, "review_star_length");
         }
 
         String content = requestDTO.getContent();
         if (content != null && content.length() > 150) {
-            throw new Exception400("리뷰 내용은 150자 이내로 작성해주세요." + content, "review_content_length");
+            throw new Exception400("리뷰 내용은 150자 이내로 작성해주세요.:" + content, "review_content_length");
         }
 
         Review review = new Review();
@@ -60,7 +59,7 @@ public class ReviewService {
     @Transactional
     public void deleteReview(Long reviewId, User user) {
         Review review = reviewRepository.findById(reviewId).orElseThrow(
-                () -> new Exception404("존재하지 않는 리뷰입니다. : " + reviewId, "review_not_existed")
+                () -> new Exception404("존재하지 않는 리뷰입니다.:" + reviewId, "review_not_existed")
         );
         reviewRepository.delete(review);
     }

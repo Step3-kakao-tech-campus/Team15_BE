@@ -33,26 +33,13 @@ public class Review {
     @JoinColumn(name = "product_pk")
     private Product product;
 
-    public void updateProduct(@NotNull Product product) {
-        this.product = product;
-    }
-
     @NotNull
     private int star;
-
-    public void updateStar(@NotNull int star) {
-        this.star = star;
-    }
 
     @NotNull
     @Column(length = 600)
     private String content;
 
-    public void updateContent(@NotNull String content) {
-        this.content = content;
-    }
-
-    @NotNull
     @CreatedDate
     private LocalDateTime createAt;
 
@@ -61,6 +48,18 @@ public class Review {
     private LocalDateTime updateAt;
 
     private LocalDateTime deleteAt;
+
+    public void updateProduct(@NotNull Product product) {
+        this.product = product;
+    }
+
+    public void updateStar(@NotNull int star) {
+        this.star = star;
+    }
+
+    public void updateContent(@NotNull String content) {
+        this.content = content;
+    }
 
     @Builder
     public Review(Long id, Rental rental, Product product, int star, String content, LocalDateTime createAt, LocalDateTime updateAt, LocalDateTime deleteAt) {

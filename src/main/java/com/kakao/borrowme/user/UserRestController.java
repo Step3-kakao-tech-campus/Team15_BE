@@ -24,13 +24,13 @@ public class UserRestController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody @Valid UserRequest.JoinDTO requestDTO) {
         userService.join(requestDTO);
-        return ResponseEntity.ok().body(ApiUtils.success(null));
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     @PostMapping("/join/check")
     public ResponseEntity<?> joinCheck(@RequestBody @Valid UserRequest.JoinCheckDTO requestDTO) {
         userService.checkSameEmail(requestDTO.getEmail());
-        return ResponseEntity.ok().body(ApiUtils.success(null));
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     @PostMapping("/login")
@@ -46,7 +46,6 @@ public class UserRestController {
                 .build();
 
         return ResponseEntity.ok()
-                .header(JWTProvider.HEADER, jwt)
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                 .body(ApiUtils.success(null));
     }
