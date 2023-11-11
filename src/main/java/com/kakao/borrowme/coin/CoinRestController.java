@@ -33,7 +33,7 @@ public class CoinRestController {
     public ResponseEntity<?> useCoin(@PathVariable Long productId,
                                      @AuthenticationPrincipal CustomUserDetails userDetails,
                                      @RequestBody CoinRequest.UseCoinDTO useCoinDTO) {
-        coinService.useCoin(userDetails.getUser(), productId, useCoinDTO.getStartAt(), useCoinDTO.getEndAt());
+        coinService.useCoin(userDetails.getUser(), productId, useCoinDTO);
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 }

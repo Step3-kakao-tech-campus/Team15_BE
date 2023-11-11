@@ -61,24 +61,24 @@ public class CoinService {
         coinLogService.coinLog(coin, piece, "충전"); // 코인 충전 내역 추가
     }
 
-    public void useCoin(User user, Long productId, String startAt, String endAt) {
+    public void useCoin(User user, Long productId, CoinRequest.UseCoinDTO useCoinDTO) {
         Product product = productJPARepository.findById(productId).orElseThrow(
                 () -> new Exception404("존재하지 않는 제품입니다.:" + productId,"product_not_existed"));
 
         Long rentalPrice = product.getRentalPrice();
 
-        LocalDateTime startDateTime = parseDateTime(startAt);
-        LocalDateTime endDateTime = parseDateTime(endAt);
+        LocalDateTime startDateTime = parseDateTime(useCoinDTO.getStartAt());
+        LocalDateTime endDateTime = parseDateTime(useCoinDTO.getEndAt());
 
         // 예약 종료일이 예약 시작일보다 빠른 경우 예외 처리
         if (startDateTime.toLocalDate().isAfter(endDateTime.toLocalDate())) {
-            throw new Exception400("예약 종료일이 예약 시작일보다 빠릅니다.:" + endAt, "rent_incorrect_period");
+            throw new Exception400("예약 종료일이 예약 시작일보다 빠릅니다.:" + useCoinDTO.getEndAt(), "rent_incorrect_period");
         }
 
         // 선택된 날짜가 과거로 설정 경우 예외 처리
         LocalDate today = LocalDate.now();
         if (startDateTime.toLocalDate().isBefore(today) || endDateTime.toLocalDate().isBefore(today)) {
-            throw new Exception400("과거 날짜값은 대여할 수 없습니다.:" + endAt, "rent_past_period");
+            throw new Exception400("과거 날짜값은 대여할 수 없습니다.:" + useCoinDTO.getEndAt(), "rent_past_period");
         }
 
         // 대여 기간 계산
