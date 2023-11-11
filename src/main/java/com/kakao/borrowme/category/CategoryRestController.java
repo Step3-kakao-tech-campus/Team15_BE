@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/category")
 public class CategoryRestController {
-
     private final CategoryService categoryService;
 
     @GetMapping("")
     public ResponseEntity<?> getCategory() {
         CategoryResponse.CategoryDTO responseDTOs = categoryService.getCategory();
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
-        return ResponseEntity.ok(apiResult);
+        return ResponseEntity.ok(ApiUtils.success(responseDTOs));
     }
 
     @GetMapping("/{categoryId}")
@@ -28,7 +26,6 @@ public class CategoryRestController {
                                                   @RequestParam(value = "lastProductId", required = false) Long lastProductId,
                                                   @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
         Slice<CategoryResponse.ProductDTO> responseDTOs = categoryService.getProductByCategory(categoryId, lastProductId, pageable);
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTOs);
-        return ResponseEntity.ok(apiResult);
+        return ResponseEntity.ok(ApiUtils.success(responseDTOs));
     }
 }

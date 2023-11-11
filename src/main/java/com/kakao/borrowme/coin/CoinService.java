@@ -7,6 +7,7 @@ import com.kakao.borrowme.product.Product;
 import com.kakao.borrowme.product.ProductJPARepository;
 import com.kakao.borrowme.rental.Rental;
 import com.kakao.borrowme.rental.RentalJPARepository;
+import com.kakao.borrowme.university.University;
 import com.kakao.borrowme.user.User;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -19,19 +20,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class CoinService {
-
     private final CoinJPARepository coinJPARepository;
     private final ProductJPARepository productJPARepository;
     private final CoinLogService coinLogService;
     private final RentalJPARepository rentalJPARepository;
     private final EntityManager entityManager;
 
-    @Transactional
     public CoinResponse.GetUserCoinDTO getUserCoin(User user) {
-
         Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);
 
         if (coin == null) {
@@ -42,13 +41,10 @@ public class CoinService {
 
             return new CoinResponse.GetUserCoinDTO(managedCoin);
         }
-
         return new CoinResponse.GetUserCoinDTO(coin);
     }
 
-    @Transactional
     public void chargeCoin(User user, CoinRequest.ChargeCoinDTO chargeCoinDTO) {
-
         Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);
 
         if (coin == null) {
@@ -65,11 +61,9 @@ public class CoinService {
         coinLogService.coinLog(coin, piece, "충전"); // 코인 충전 내역 추가
     }
 
-    @Transactional
     public void useCoin(User user, Long productId, String startAt, String endAt) {
-
         Product product = productJPARepository.findById(productId).orElseThrow(
-                () -> new Exception404("존재하지 않는 제품입니다. : " + productId,"product_not_existed"));
+                () -> new Exception404("존재하지 않는 제품입니다.:" + productId,"product_not_existed"));
 
         Long rentalPrice = product.getRentalPrice();
 
@@ -78,13 +72,13 @@ public class CoinService {
 
         // 예약 종료일이 예약 시작일보다 빠른 경우 예외 처리
         if (startDateTime.toLocalDate().isAfter(endDateTime.toLocalDate())) {
-            throw new Exception400("예약 종료일이 예약 시작일보다 빠릅니다. : " + endAt, "rent_incorrect_period");
+            throw new Exception400("예약 종료일이 예약 시작일보다 빠릅니다.:" + endAt, "rent_incorrect_period");
         }
 
         // 선택된 날짜가 과거로 설정 경우 예외 처리
         LocalDate today = LocalDate.now();
         if (startDateTime.toLocalDate().isBefore(today) || endDateTime.toLocalDate().isBefore(today)) {
-            throw new Exception400("과거 날짜값은 대여할 수 없습니다. : " + endAt, "rent_past_period");
+            throw new Exception400("과거 날짜값은 대여할 수 없습니다.:" + endAt, "rent_past_period");
         }
 
         // 대여 기간 계산
@@ -101,7 +95,7 @@ public class CoinService {
 
         // 충전 잔액이 부족한 경우 예외처리
         if (coin.getPiece() < totalPrice) {
-            throw new Exception400("충전 페이머니가 부족합니다. 충전페이지로 이동합니다. : " + coin.getPiece(), "create_insufficient_coin");
+            throw new Exception400("충전 페이머니가 부족합니다. 충전페이지로 이동합니다.:" + coin.getPiece(), "create_insufficient_coin");
         }
 
         coin.updatePiece(coin.getPiece() - totalPrice); // 결제 완료
@@ -109,8 +103,13 @@ public class CoinService {
 
         String rentalStatus = (startDateTime.toLocalDate().isEqual(today)) ? "대여중" : "예약중";
 
-        Rental rental = Rental.builder().product(product).user(user).status(rentalStatus)
-                                        .startAt(startDateTime).endAt(endDateTime).build();
+        Rental rental = Rental.builder()
+                .product(product)
+                .user(user)
+                .status(rentalStatus)
+                .startAt(startDateTime)
+                .endAt(endDateTime)
+                .build();
         rentalJPARepository.save(rental);
 
         coinLogService.coinLog(coin, -totalPrice, "결제");
@@ -124,5 +123,4 @@ public class CoinService {
             throw new Exception400("잘못된 날짜 형식입니다.","wrong_date_type");
         }
     }
-
 }

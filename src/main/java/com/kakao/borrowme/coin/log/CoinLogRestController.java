@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/payment/log")
 public class CoinLogRestController {
-
     private final CoinLogService coinLogService;
 
-    // 1. 충전 금액 조회하기
+    // 충전 금액 조회하기
     @GetMapping("")
     public ResponseEntity<?> getUserCoinLog(@AuthenticationPrincipal CustomUserDetails userDetails) {
         CoinLogResponse.GetUserCoinLogDTO responseDTO = coinLogService.getUserCoinLog(userDetails.getUser());
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
-        return ResponseEntity.ok(apiResult);
+        return ResponseEntity.ok(ApiUtils.success(responseDTO));
     }
 }

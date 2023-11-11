@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "coin_tb")
 public class Coin {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coin_pk")

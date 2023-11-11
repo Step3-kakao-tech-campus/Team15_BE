@@ -11,30 +11,29 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/payment")
 public class CoinRestController {
-
     private final CoinService coinService;
 
-    // 1. 충전 금액 조회하기
+    // 충전 금액 조회하기
     @GetMapping("")
     public ResponseEntity<?> getUserCoin(@AuthenticationPrincipal CustomUserDetails userDetails) {
         CoinResponse.GetUserCoinDTO responseDTO = coinService.getUserCoin(userDetails.getUser());
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(responseDTO);
-        return ResponseEntity.ok(apiResult);
+        return ResponseEntity.ok(ApiUtils.success(responseDTO));
     }
 
-    // 2. 충전하기
+    // 충전하기
     @PostMapping("/charge")
-    public ResponseEntity<?> chargeCoin(@AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.ChargeCoinDTO chargeCoinDTO) {
+    public ResponseEntity<?> chargeCoin(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                        @RequestBody CoinRequest.ChargeCoinDTO chargeCoinDTO) {
         coinService.chargeCoin(userDetails.getUser(), chargeCoinDTO);
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.success(null);
-        return ResponseEntity.ok(apiResult);
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 
-    // 3. 결제하기
-    @PostMapping("/use-coin/{productId}") // endpoint 수정
-    public ResponseEntity<?> useCoin(@PathVariable Long productId, @AuthenticationPrincipal CustomUserDetails userDetails, @RequestBody CoinRequest.UseCoinDTO useCoinDTO) {
+    // 결제하기
+    @PostMapping("/use-coin/{productId}")
+    public ResponseEntity<?> useCoin(@PathVariable Long productId,
+                                     @AuthenticationPrincipal CustomUserDetails userDetails,
+                                     @RequestBody CoinRequest.UseCoinDTO useCoinDTO) {
         coinService.useCoin(userDetails.getUser(), productId, useCoinDTO.getStartAt(), useCoinDTO.getEndAt());
-        ApiUtils.ApiResult<?> apiResult = ApiUtils.success((Object)null);
-        return ResponseEntity.ok(apiResult);
+        return ResponseEntity.ok(ApiUtils.success(null));
     }
 }

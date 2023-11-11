@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CoinLogResponse {
-
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class GetUserCoinLogDTO {
-
-        private List<CoinLogDTO> coinLogs;
+        private List<CoinLogDTO> coinLogList;
 
         public GetUserCoinLogDTO(List<CoinLog> coinLogList) {
-            this.coinLogs = coinLogList.stream().map(CoinLogDTO::new).collect(Collectors.toList());
+            this.coinLogList = coinLogList.stream().map(CoinLogDTO::new).collect(Collectors.toList());
         }
 
-        @Getter @Setter
-        public class CoinLogDTO{
+        @Getter
+        @Setter
+        public class CoinLogDTO {
             private Long id;
             private Long piece;
             private String coinType;

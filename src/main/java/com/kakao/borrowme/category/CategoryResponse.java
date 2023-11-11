@@ -9,19 +9,19 @@ import lombok.Setter;
 import java.util.List;
 
 public class CategoryResponse {
-
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class CategoryDTO {
-        private List<Category> categories;
+        private List<Category> categoryList;
 
-        public CategoryDTO(List<Category> categories) {
-            this.categories = categories;
+        public CategoryDTO(List<Category> categoryList) {
+            this.categoryList = categoryList;
         }
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class ProductDTO {
-
         private Long productId;
         private String categoryName;
         private String productName;
