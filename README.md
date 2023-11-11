@@ -6,6 +6,7 @@
 또한 공유 재산으로서 환경에 더욱 기여하는
 방향성을 가지고 있습니다.
 </div>
+
 </br>
 
 ## 목차
@@ -14,9 +15,9 @@
 
 [🔗 배포 링크](#배포-링크)
 
-[🚩 팀 공통 목표](#팀-공통-목표)
-
 [👥 멤버 소개](#멤버-소개)
+
+[🚩 팀 공통 목표](#팀-공통-목표)
 
 [📍 서비스 소개](#서비스-소개)
 
@@ -36,7 +37,7 @@
 
 ## 개요
 <img src="https://i.postimg.cc/GhPt3vVh/001-1.png">
-<br>
+</br>
 
 - 프로젝트 이름 : 보로미
 - 프로젝트 한 줄 소개 : 대학생들을 위한 쉽고 빠른 대여 서비스, Borrow Me
@@ -45,7 +46,6 @@
 </br>
 
 ## 배포 링크
-
 배포 중인 인스턴스는 다음과 같이 있습니다.
 - FE: [https://kad4a5a7c2c57a.user-app.krampoline.com](https://kad4a5a7c2c57a.user-app.krampoline.com/)
 - BE: [https://kd232444c2db9a.user-app.krampoline.com](https://kd232444c2db9a.user-app.krampoline.com/)
@@ -59,6 +59,7 @@
 
 ## 팀 공통 목표
 프로젝트 경험이 없는 팀원들이 대부분 이었습니다. 그렇기에, 공통 목표는 MVP를 개발하는 것으로 설정 하였습니다. MVP는 최소한의 기능을 갖춘 제품으로, 대학생들이 대여 서비스를 원활하게 이용할 수 있는 기반을 마련하는 것을 목표로 했습니다. 우리는 서로의 강점을 살려 지식을 공유하고, 팀원들 간의 협업을 통해 프로젝트를 진행하도록 하였습니다. 프로젝트 과정에서 실력 향상과 성장을 경험하며, 팀원 모두가 소중한 프로젝트 기회를 얻을 수 있도록 노력했습니다.
+</br>
 
 ## 서비스 소개
 > 대학생들을 위한 쉽고 빠른 대여 서비스, Borrow Me
@@ -87,6 +88,7 @@
 |상품 검색하기|<a href="https://ibb.co/mRyqNwm"><img src="https://i.ibb.co/10Xqz53/image.png" alt="image" border="0"></a>|검색을 통해 원하는 상품을 찾을 수 있습니다.|
 |페이머니 충전 및 결제하기|<a href="https://ibb.co/GkywM49"><img src="https://i.ibb.co/Y8m9dFX/image.png" alt="image" border="0"></a>|페이머니를 통해 결제를 진행합니다. <br>충전된 페이머니 잔액이 부족하면 충전페이지로 바로 이동합니다.|
 |대여내역 조회 및 리뷰 작성하기|<a href="https://ibb.co/znFRXbn"><img src="https://i.ibb.co/cgwF6tg/image.png" alt="image" border="0"></a>|대여내역을 조회하여 리뷰를 작성할 수 있습니다.|
+</br>
 
 ## 상세 기능 소개
 더 자세한 기능별 코드 소개는 [노션](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1&p=7cde2845263742dba98cacbe4f617f8b&pm=s)을 참고해주세요 :)
@@ -111,6 +113,7 @@
 6. **Exception에 `reason`을 추가적으로 응답하도록 Exception마다 알맞은 reason을 작성하고, 응답 구현**
     - 프론트분들의 요청사항 중 예외 메세지를 전달할 때 reason을 통해 어떤 조건 또는 이유로 예외가 발생했는지 정확하게 전달받기 위해 reason을 함께 전달해주면 좋겠다는 요청이 있었습니다.
     - reason을 함께 전달하기 위해 GlobalExceptionHandler를 수정하여 HttpHeader에 reason을 추가해 함께 에러 메세지를 전달하도록 하였습니다.
+</br>
 
 ## ERD
 ![BorrowMeERD](https://i.imgur.com/9Pz7Ka7.png)
@@ -130,6 +133,7 @@ cd src
 cd build/libs
 java -jar borrowme-0.0.1-SNAPSHOT.jar
 ```
+</br>
 
 ## 자료 모음
 - [테스트 시나리오 명세서](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1&p=afa847dd4b634ef6b5818f71512dcefa&pm=s)
