@@ -10,11 +10,10 @@ public class ProductRequest {
 
     @Getter
     @Setter
-    @ToString
     public static class RentDTO {
 
-        private LocalDateTime startAt;
-        private LocalDateTime endAt;
+        private String startAt;
+        private String endAt;
 
     }
 }
