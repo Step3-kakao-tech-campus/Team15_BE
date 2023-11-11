@@ -52,9 +52,7 @@ public class CoinService {
         Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);
 
         if (coin == null) {
-            // 분리된 상태의 Coin 엔티티를 생성
             Coin newCoin = Coin.builder().user(user).piece(0L).build();
-            // merge를 사용하여 분리된 엔티티를 영속 상태로 변경
             Coin managedCoin = entityManager.merge(newCoin);
             coin = managedCoin;
         }
@@ -64,7 +62,7 @@ public class CoinService {
         coin.updatePiece(coin.getPiece() + piece);
 
         coinJPARepository.save(coin);
-        coinLogService.chargeCoinLog(coin, piece, "충전");
+        coinLogService.coinLog(coin, piece, "충전"); // 코인 충전 내역 추가
     }
 
     @Transactional
@@ -89,25 +87,25 @@ public class CoinService {
             throw new Exception400("과거 날짜값은 대여할 수 없습니다. : " + endAt, "rent_past_period");
         }
 
-        Long duration = Duration.between(startDateTime, endDateTime).toDays() + 1; // 대여 기간 (시간)
+        // 대여 기간 계산
+        Long duration = Duration.between(startDateTime, endDateTime).toDays() + 1;
 
         Long totalPrice = rentalPrice * duration;
 
         Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);
 
         if (coin == null) {
-            // 분리된 상태의 Coin 엔티티를 생성
             Coin newCoin = Coin.builder().user(user).piece(0L).build();
-            // merge를 사용하여 분리된 엔티티를 영속 상태로 변경
             Coin managedCoin = entityManager.merge(newCoin);
             coin = managedCoin;
         }
 
+        // 충전 잔액이 부족한 경우 예외처리
         if (coin.getPiece() < totalPrice) {
             throw new Exception400("충전 페이머니가 부족합니다. 충전페이지로 이동합니다. : " + coin.getPiece(), "create_insufficient_coin");
         }
 
-        coin.updatePiece(coin.getPiece() - totalPrice);
+        coin.updatePiece(coin.getPiece() - totalPrice); // 결제 완료
         coinJPARepository.save(coin);
 
         String rentalStatus = (startDateTime.toLocalDate().isEqual(today)) ? "대여중" : "예약중";
@@ -116,7 +114,7 @@ public class CoinService {
                                         .startAt(startDateTime).endAt(endDateTime).build();
         rentalJPARepository.save(rental);
 
-        coinLogService.useCoinLog(coin, -totalPrice, "결제");
+        coinLogService.coinLog(coin, -totalPrice, "결제");
     }
 
     private LocalDateTime parseDateTime(String dateTimeString) {
