@@ -89,7 +89,6 @@ public class CoinService {
 
         // 대여 기간 계산
         Long duration = Duration.between(startDateTime, endDateTime).toDays() + 1;
-
         Long totalPrice = rentalPrice * duration;
 
         Coin coin = coinJPARepository.findByUserId(user.getId()).orElse(null);

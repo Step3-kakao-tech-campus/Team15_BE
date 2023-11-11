@@ -6,15 +6,12 @@ import com.kakao.borrowme.product.image.ProductImage;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class RentalResponse {
-
     @Getter
     @Setter
-    public static class getRentalDTO {
-
+    public static class RentalDTO {
         private Long id;
         private String productName;
         private String companyName;
@@ -23,7 +20,7 @@ public class RentalResponse {
         private String productImagePath;
         private String status;
 
-        public getRentalDTO(Product product, Company company, Rental rental, ProductImage productImage) {
+        public RentalDTO(Product product, Company company, Rental rental, ProductImage productImage) {
             this.id = product.getId();
             this.productName = product.getName();
             this.companyName = company.getName();

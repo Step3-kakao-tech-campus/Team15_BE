@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payment/log")
-public class CoinLogController {
+public class CoinLogRestController {
 
     private final CoinLogService coinLogService;
 

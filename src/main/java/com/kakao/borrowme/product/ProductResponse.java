@@ -8,11 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ProductResponse {
-
     @Getter
     @Setter
     public static class FindAllDTO {
-
         private Long id;
         private Category category;
         private Long rentalPrice;
@@ -21,7 +19,7 @@ public class ProductResponse {
         private String productName;
         private String productImagePath;
 
-        public FindAllDTO(Product product,ProductImage productImage) {
+        public FindAllDTO(Product product, ProductImage productImage) {
             this.id = product.getId();
             this.category = product.getCategory();
             this.rentalPrice = product.getRentalPrice();
@@ -35,7 +33,6 @@ public class ProductResponse {
     @Getter
     @Setter
     public static class FindByIdDTO {
-
         private Long id;
         private Category category;
         private Long rentalPrice;

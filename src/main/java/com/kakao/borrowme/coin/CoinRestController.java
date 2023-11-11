@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payment")
-public class CoinController {
+public class CoinRestController {
 
     private final CoinService coinService;
 

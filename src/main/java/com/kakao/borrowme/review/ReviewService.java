@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
-    private final ReviewJPARepository reviewRepository;
-    private final RentalJPARepository rentalRepository;
+    private final ReviewJPARepository reviewJPARepository;
+    private final RentalJPARepository rentalJPARepository;
 
     @Transactional(readOnly = true)
     public List<ReviewResponse.ReviewDTO> getReview(Long productId) {
-        List<Review> reviewList = reviewRepository.findAllByProductId(productId);
+        List<Review> reviewList = reviewJPARepository.findAllByProductId(productId);
 
         List<ReviewResponse.ReviewDTO> responseDTOs = reviewList.stream()
                 .map(review -> new ReviewResponse.ReviewDTO(review))
@@ -31,7 +31,7 @@ public class ReviewService {
 
     @Transactional
     public void postReview(Long rentalId, ReviewRequest.ReviewDTO requestDTO, User user) {
-        Rental rental = rentalRepository.findById(rentalId).orElseThrow(
+        Rental rental = rentalJPARepository.findById(rentalId).orElseThrow(
                 () -> new Exception404("존재하지 않는 대여 기록입니다.:" + rentalId, "rental_not_existed")
         );
 
@@ -45,22 +45,22 @@ public class ReviewService {
             throw new Exception400("리뷰 내용은 150자 이내로 작성해주세요.:" + content, "review_content_length");
         }
 
-        Review review = new Review();
-        review.updateProduct(rental.getProduct());
-        review.updateStar(requestDTO.getStar());
-        review.updateContent(requestDTO.getContent());
-
-        reviewRepository.save(review);
+        Review review = Review.builder()
+                .product(rental.getProduct())
+                .star(requestDTO.getStar())
+                .content(requestDTO.getContent())
+                .build();
+        reviewJPARepository.save(review);
 
         rental.updateStatus("리뷰완료");
-        rentalRepository.save(rental);
+        rentalJPARepository.save(rental);
     }
 
     @Transactional
     public void deleteReview(Long reviewId, User user) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(
+        Review review = reviewJPARepository.findById(reviewId).orElseThrow(
                 () -> new Exception404("존재하지 않는 리뷰입니다.:" + reviewId, "review_not_existed")
         );
-        reviewRepository.delete(review);
+        reviewJPARepository.delete(review);
     }
 }

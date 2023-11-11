@@ -7,7 +7,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserRequest {
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class JoinDTO {
         @Pattern(regexp = "^[가-힣]+대학교$")
         private String universityName;
@@ -19,13 +20,15 @@ public class UserRequest {
         private String nickname;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class JoinCheckDTO {
         @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")
         private String email;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class LoginDTO {
         @Pattern(regexp = "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")
         private String email;
