@@ -83,9 +83,9 @@
 
 </br>
 
-## 💚 ERD
+## ERD
 
-</br>
+![BorrowMeERD](https://github.com/Step3-kakao-tech-campus/Team15_FE/assets/45393030/815fc803-0026-4fdd-ac4e-0a7cd28a7e4f)
 
 ## ☑️ 시작가이드
 > Java : 11, Spring : 2.7.16
@@ -101,6 +101,8 @@ cd src
 cd build/libs
 java -jar borrowme-0.0.1-SNAPSHOT.jar
 ```
+
+
 
 ## 🔗 자료 모음
 - [테스트 시나리오 명세서](https://www.notion.so/ad7ae2629b6d4267acc52fb4e4fa22bc?v=c78021d44a9641c9b54ef9c20d8202a1&p=afa847dd4b634ef6b5818f71512dcefa&pm=s)
