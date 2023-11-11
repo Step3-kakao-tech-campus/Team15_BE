@@ -4,16 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class CoinResponse {
-    
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class GetUserCoinDTO {
-
         private Long piece;
 
         public GetUserCoinDTO(Coin coin) {
             this.piece = coin.getPiece();
         }
-
     }
-
 }

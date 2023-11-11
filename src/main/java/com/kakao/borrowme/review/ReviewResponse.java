@@ -7,7 +7,6 @@ public class ReviewResponse {
     @Getter
     @Setter
     public static class ReviewDTO {
-
         private int star;
         private String content;
 

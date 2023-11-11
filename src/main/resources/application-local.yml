@@ -27,7 +27,6 @@ logging:
     '[com.example.kakao]': DEBUG
     '[org.hibernate.type]': TRACE
 
-# 테스트용 환경변수 - 추후 숨기기 필요
 security:
   jwt:
     access_exp: 14400
