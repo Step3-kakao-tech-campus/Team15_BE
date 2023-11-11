@@ -9,37 +9,24 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class CoinLogService {
-
     private final CoinLogJPARepository coinLogJPARepository;
 
-    public void chargeCoinLog(Coin coin, Long piece, String coinType) {
+    public void coinLog(Coin coin, Long piece, String coinType) {
         CoinLog coinLog = CoinLog.builder()
                 .coin(coin)
                 .piece(piece)
                 .coinType(coinType)
                 .createAt(LocalDateTime.now())
                 .build();
-
-        coinLogJPARepository.save(coinLog);
-    }
-
-    public void useCoinLog(Coin coin, Long piece, String coinType) {
-        CoinLog coinLog = CoinLog.builder()
-                .coin(coin)
-                .piece(piece)
-                .coinType(coinType)
-                .createAt(LocalDateTime.now())
-                .build();
-
         coinLogJPARepository.save(coinLog);
     }
 
     public CoinLogResponse.GetUserCoinLogDTO getUserCoinLog(User user) {
-        List<CoinLog> coinLogs = coinLogJPARepository.findByUserId(user.getId());
-        return new CoinLogResponse.GetUserCoinLogDTO(coinLogs);
+        List<CoinLog> coinLogList = coinLogJPARepository.findByUserId(user.getId());
+        return new CoinLogResponse.GetUserCoinLogDTO(coinLogList);
     }
 }

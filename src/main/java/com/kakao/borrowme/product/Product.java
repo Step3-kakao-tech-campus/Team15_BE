@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "product_tb")
 public class Product {
-    // 추후 String 으로 변경 가능
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_pk")
