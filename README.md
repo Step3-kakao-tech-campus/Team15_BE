@@ -43,8 +43,8 @@
 ## 배포 링크
 
 배포 중인 인스턴스는 다음과 같이 있습니다.
-1. FE: [https://kad4a5a7c2c57a.user-app.krampoline.com](https://kad4a5a7c2c57a.user-app.krampoline.com/)
-2. BE: [https://kd232444c2db9a.user-app.krampoline.com](https://kd232444c2db9a.user-app.krampoline.com/)
+- FE: [https://kad4a5a7c2c57a.user-app.krampoline.com](https://kad4a5a7c2c57a.user-app.krampoline.com/)
+- BE: [https://kd232444c2db9a.user-app.krampoline.com](https://kd232444c2db9a.user-app.krampoline.com/)
 </br>
 
 ## 멤버 소개
