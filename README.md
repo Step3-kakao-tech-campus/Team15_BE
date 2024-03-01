@@ -54,7 +54,7 @@
 ## 멤버 소개
 |<img src="https://github.com/geunho00.png"  width="150" height="150"/>|<img src="https://github.com/zxc88kr.png"  width="150" height="150"/>|<img src="https://github.com/C0Zl.png"  width="150" height="150"/>|
 |:---:|:---:|:---:|
-|[김근호](https://github.com/geunho00)|[박찬](https://github.com/zxc88kr)|[이지혜](https://github.com/C0Zl)|
+|[김근호](https://github.com/geunhokinn)|[박찬](https://github.com/zxc88kr)|[이지혜](https://github.com/C0Zl)|
 </br>
 
 ## 팀 공통 목표
